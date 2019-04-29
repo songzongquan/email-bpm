@@ -19,11 +19,14 @@ email-bpm ,顾名思义是利用email系统实现的ｂｐｍ，ｂｐｍ是指b
 ##  开发人员参考
 
 ### python 操作 excel 的模块
-官方　　　https://pypi.org/project/openpyxl/
-中文入门　https://segmentfault.com/a/1190000016256490
+
+- 官方　　　https://pypi.org/project/openpyxl/
+- 中文入门　https://segmentfault.com/a/1190000016256490
+
 ### python　访问邮箱的模块
-发邮件　　https://docs.python.org/3/library/smtplib.html
-收邮件　　https://docs.python.org/3/library/imaplib.html
+
+- 发邮件　　https://docs.python.org/3/library/smtplib.html
+- 收邮件　　https://docs.python.org/3/library/imaplib.html
 
 
 
