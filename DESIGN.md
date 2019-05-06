@@ -9,7 +9,7 @@
 
 ## 模块划分
 
-![模块调用关系图](modules_login_struct.png)
+![模块调用关系图](module_login_struct.png)
 
 
 ### 流程调度中心
