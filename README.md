@@ -27,6 +27,9 @@ email-bpm ,顾名思义是利用email系统实现的ｂｐｍ，ｂｐｍ是指b
 - script        业务脚本存放位置，如反向代理执行脚本等
 - flowControler  流程调度中心所用特定代码存放位置
 - executeAgent   执行代理代码存放位置
+- doc          文档
+
+main.py为流程调度中心的主程序，agent.py为执行代理的主程序。
 
 部署说明：
 
