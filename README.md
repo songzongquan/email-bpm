@@ -16,9 +16,9 @@ email-bpm ,顾名思义是利用email系统实现的ｂｐｍ，ｂｐｍ是指b
 后期可以通过不断的补充流程定义，excel模板和执行代理端的脚本来扩展新的业务场景．
 
 ## 需求分析
-[需求规格说明](REQUIRMENT.md )
+[需求规格说明](doc/REQUIRMENT.md )
 ## 概要设计
-[概要设计文档](DESIGN.md)
+[概要设计文档](doc/DESIGN.md)
 
 ### 目录划分
 
@@ -34,7 +34,7 @@ email-bpm ,顾名思义是利用email系统实现的ｂｐｍ，ｂｐｍ是指b
 2. 流程调度中心是主系统，它需要common和flowControler目录 。
 
 ## 开发计划
-[开发计划安排](PLAN.md)
+[开发计划安排](doc/sPLAN.md)
 
 ##  开发人员参考
 
