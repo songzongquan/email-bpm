@@ -20,6 +20,19 @@ email-bpm ,顾名思义是利用email系统实现的ｂｐｍ，ｂｐｍ是指b
 ## 概要设计
 [概要设计文档](DESIGN.md)
 
+### 目录划分
+
+- common   公用模块代码存放位置
+- data          数据文件存放位置
+- script        业务脚本存放位置，如反向代理执行脚本等
+- flowControler  流程调度中心所用特定代码存放位置
+- executeAgent   执行代理代码存放位置
+
+部署说明：
+
+1. 执行代理部署可独立部署，比如部署在远程的机器上，它需要将executeAgent目录以及 common目录安装在目标主机上。
+2. 流程调度中心是主系统，它需要common和flowControler目录 。
+
 ## 开发计划
 [开发计划安排](PLAN.md)
 
