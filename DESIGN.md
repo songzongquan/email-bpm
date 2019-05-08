@@ -85,7 +85,7 @@
 #### 设计说明
 | 模块名| 类名| 方法名|备注|
 |----|----|----|----|
-|flowDefineParser.py|FlowDefineParser|parse(path,filename)| 读取指定的json文件，得到流程定义信息，返回一个字典数据结构; |
+|flowDefineParser.py|FlowDefineParser|parse(filename)| 读取指定的json文件，得到流程定义信息，返回一个字典数据结构; |
 |||| |
 
 
@@ -97,14 +97,14 @@
 #### 设计说明
 | 模块名| 类名| 方法名|备注|
 |----|----|----|----|
-|flowExecuter.py|FlowExecuter|createInstance(flowDefine)| 根据一个流程定义创建流程实例，返回是一个FlowExecuter对象，内部包含当前的流程实例id，它将会被附件名称使用。创建 实例的过程是将流程的当前状态信息持久化。并保留每一个环节的历史状态。比如当前环节、执行者、时间戳、执行状态等 |
-|||loadInstance(instanceId)| 根据流程实例id加载FlowExecuter实例。 |
-|||start()| 启动流程，表示流程开始，则会开始执行第一个环节 |
-|||end()| 结束流程，表示流程结束，回收临时资源，执行最后收尾工作。将流程状态标识为完成。 |
-|||getCurrentStep()| 得到当前步骤信息：名称、执行者、时间、 |
-|||getNextStep()| 计算并返回下一步的信息，名称，执行者。这个要用到流程定义信息 |
-|||execute(stepId)| 执行实例的某一步。返回执行状态：true/false,并将执行状态持久化，用于执行同步的自动任务 |
-|||complete(stepId)| 表示该步已完成。 |
+|flowExecuter.py|FlowExecuter|createInstance(filename)| 根据一个excel文件创建流程实例，它是通过调用createInstance(def,params)来创建的。它通过对文件名可解析出流程定义名与实例名，命名规范见“数据文件设计”章节;同时需要通过调用excel读写器取得变量注入到流程实例中，即对createInstance(def,params) 方法中params参数的指定. |
+|||loadInstance(filename)| 根据流程实例id加载流程实例，是通过调用 loadInstance(instanceId)来实现。它本身实现解析excel文件名，得到流程实例id。 |
+|||createInstance(def,params)| 通过流程定义名称、以及参数字典创建一个流程创建实例。 |
+|||loadInstance(instanceId)| 通过一个流程实例的id加载一个流程实例 |
+|||getCurrentStep()| 得到当前步骤信息：名称、执行者、时间、返回的是一个字典对象 |
+|||getNextStep()| 计算并返回下一步的信息，名称，执行者。这个要用到流程定义信息,返回一个字典对象 |
+|||execute(step)| 执行实例的某一步。返回执行状态：true/false,并将执行状态持久化，用于执行同步的自动任务 |
+|||complete(step)| 表示该步已完成。 |
 |||getFlowVarValue(varName)| 获得流程变量的值。 |
 |||setFlowVarValue(varName,value)| 写入流更变量的值。 |
 |||getFlowInstanceId()| 得到当前FlowExecuter对象的流程实例id |
@@ -127,7 +127,7 @@
 | 模块名| 类名| 方法名|备注|
 |----|----|----|----|
 |excelReadWriter.py|ExcelReadWriter|read(varName)| 读取filname指定我excel文件中的某变量值，varName是模板定义中定义的变量名，templateDef是exeTemplateParser类解析出来的模板定义信息。 |
-|||__init__(flowid,templeteName)| 指定模板名称与流程实例id实例化对象，这将根据模板名称来加载指定的模板excel以及其定义json文件 |
+|||__init__(filename)| 指定excel附件文件名实例化对象，这将根据模板名称来加载指定的模板excel以及其定义json文件。 |
 |||write(varName,value)| 指定变量与值，将其实入对应的excel中。 |
 
 
@@ -317,6 +317,24 @@
 ### 流程实例文件
 
 文件名称示例:   flow\__邮箱注册_\_001_.json
+
+
+
+### 合法邮箱列表
+
+lagel\_email.xlsx
+
+它的格式如下：
+
+| 邮箱地址 | 姓名 | 手机号 | 部门名称 |
+| -------- | ---- | ------ | -------- |
+|          |      |        |          |
+|          |      |        |          |
+|          |      |        |          |
+
+用来保存注册通过的邮箱及拥有人的姓名与手机号等信息，作为以后合法邮件申请的检查与校验来用。
+
+不再这个列表中的邮件过来后，我们是被系统排除在外的。
 
 ### excel模板文件
 
