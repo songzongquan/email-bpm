@@ -3,21 +3,31 @@ import os,sys
 
 def getMainEmailInfo():
     ''' 获取主程序的邮箱配置信息'''
-    path = '/flowControler/conf/email-bpm.ini'
-    base = os.getcwd()
-    path = base+path
-    print(path)
-    info = getEmailInfo(path)
+    path = '../flowControler/conf/email-bpm.ini'
+    
+    configfilepath = getConfigfilePath(path)    
+    info = getEmailInfo(configfilepath)
 
     return info
+
+
+def getConfigfilePath(oldpath):
+
+    filepath = os.path.abspath(__file__)
+    #print(filepath)
+
+    fatherpath = os.path.abspath(os.path.dirname(filepath))
+    #print(fatherpath)
+    configfilepath = os.path.join(fatherpath+os.path.sep+oldpath)
+    #print(configfilepath)
+    return configfilepath
 
 
 def getAgentEmailInfo():
     '''得到执行代理的邮件配置信息'''
     path = '/executeAgent/conf/agent.ini'
-    base = os.getcwd()
-    path = base+path
-    info = getEmailInfo(path)
+    configfilepath = getConfigfilePath(path)
+    info = getEmailInfo(configfilepath)
     return info
 
 
