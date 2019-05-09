@@ -1,5 +1,11 @@
 from flowControler.flowControler import FlowControler
-from common.emailClient import EmailClient
+from common.config  import *
+
+info = getMainEmailInfo()
+print(info)
+
+
+
 f = FlowControler()
 f.main()
 
