@@ -1,0 +1,90 @@
+{
+
+	"id": "flow001",
+
+	"name": "",
+
+	"flowVars": [{
+			"varName": "emailAddress",
+			"varValue": ""
+		},
+		{
+			"varName": "name",
+			"varValue": ""
+		},
+		{
+			"varName": "result",
+			"varValue": "yes"
+		}
+	],
+
+	"nodes": [
+
+		{
+
+			"id": "node1",
+
+			"name": "",
+
+			"taskType": "man",
+			"actor": "songzongquan",
+			"route": [{
+					"toNode": "node4",
+					"condition": "result == no "
+				},
+				{
+					"toNode": "node2",
+					"condition": "result == yes"
+				}
+			]
+
+		},
+
+		{
+
+			"id": "node2",
+
+			"name": "",
+
+			"taskType": "man",
+			"actor": "${}",
+
+			"route": [{
+				"toNode": "node3",
+				"condition": ""
+			}]
+
+		},
+
+
+		{
+
+			"id": "node3",
+
+			"name": "",
+			"taskType": "auto",
+			"script": "emailsave.py",
+			"route": [{
+				"toNode": "node4",
+				"condition": ""
+			}]
+
+		},
+
+		{
+
+			"id": "node4",
+
+			"name": "",
+			"taskType": "auto",
+
+			"script": "tongzhi.py",
+
+
+			"route": {}
+
+		}
+
+	]
+
+}
