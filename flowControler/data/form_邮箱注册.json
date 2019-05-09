@@ -1,0 +1,33 @@
+{
+    "emailAddress":{
+      "sheet" :1,
+      "row" :2,
+      "col" :1
+    },
+
+    "name" :{
+      "sheet" :1,
+      "row" :2,
+      "col" :2
+     },
+
+    "jobNumber" : {
+      "sheet" :1,
+      "row" :2,
+      "col" :3
+    },
+
+    "phoneNumber" : {
+      "sheet" :1,
+      "row" :2,
+      "col" :4
+    },
+
+    "departmentName" : {
+      "sheet" :1,
+      "row" :2,
+      "col" :5
+    }
+
+
+}
