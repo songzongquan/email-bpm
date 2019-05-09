@@ -1,0 +1,90 @@
+{
+
+	"id": "flow001",
+
+	"name": "邮箱注册",
+
+	"flowVars": [{
+			"varName": "emailAddress",
+			"varValue": ""
+		},
+		{
+			"varName": "name",
+			"varValue": ""
+		},
+		{
+			"varName": "result",
+			"varValue": "yes"
+		}
+	],
+
+	"nodes": [
+
+		{
+
+			"id": "node1",
+
+			"name": "注册审批",
+
+			"taskType": "man",
+			"actor": "songzongquan",
+			"route": [{
+					"toNode": "node4",
+					"condition": "result == no "
+				},
+				{
+					"toNode": "node2",
+					"condition": "result == yes"
+				}
+			]
+
+		},
+
+		{
+
+			"id": "node2",
+
+			"name": "邮箱验证",
+
+			"taskType": "man",
+			"actor": "${申请人}",
+
+			"route": [{
+				"toNode": "node3",
+				"condition": ""
+			}]
+
+		},
+
+
+		{
+
+			"id": "node3",
+
+			"name": "邮箱入库",
+			"taskType": "auto",
+			"script": "emailsave.py",
+			"route": [{
+				"toNode": "node4",
+				"condition": ""
+			}]
+
+		},
+
+		{
+
+			"id": "node4",
+
+			"name": "通知申请人",
+			"taskType": "auto",
+
+			"script": "tongzhi.py",
+
+
+			"route": {}
+
+		}
+
+	]
+
+}
