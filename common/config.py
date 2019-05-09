@@ -5,13 +5,14 @@ def getMainEmailInfo():
     ''' 获取主程序的邮箱配置信息'''
     path = '../flowControler/conf/email-bpm.ini'
     
-    configfilepath = getConfigfilePath(path)    
+    configfilepath = getAbsPath(path)    
     info = getEmailInfo(configfilepath)
 
     return info
 
 
-def getConfigfilePath(oldpath):
+def getAbsPath(oldpath):
+    ''' 根据相对路径计算对路径 '''
 
     filepath = os.path.abspath(__file__)
     #print(filepath)
@@ -26,7 +27,7 @@ def getConfigfilePath(oldpath):
 def getAgentEmailInfo():
     '''得到执行代理的邮件配置信息'''
     path = '/executeAgent/conf/agent.ini'
-    configfilepath = getConfigfilePath(path)
+    configfilepath = getAbsPath(path)
     info = getEmailInfo(configfilepath)
     return info
 
@@ -50,6 +51,7 @@ def getEmailInfo(path):
     imap_port =  config.get('email','imap_port')
     stmp = config.get('email','stmp')
     stmp_port = config.get('email','stmp_port')
+    interval = config.get('email','interval')
 
     info = {}
   
@@ -60,6 +62,7 @@ def getEmailInfo(path):
     info['imap_port'] = imap_port
     info['stmp'] = stmp
     info['stmp_port'] = stmp_port
+    info['interval'] = interval
 
     return info
 
