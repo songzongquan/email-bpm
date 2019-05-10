@@ -1,0 +1,72 @@
+
+{
+	"nodes": [
+
+		{
+
+			"id": "node1",
+
+			"name": "审批",
+
+			"taskType": "man",
+			"actor": "songzongquan",
+			"route": [{
+					"toNode": "node3",
+					"condition": "result == 不同意 "
+				},
+				{
+					"toNode": "node2",
+					"condition": "result == 同意"
+				}
+			]
+
+		},
+
+
+
+		{
+
+			"id": "node2",
+
+			"name": "执行",
+			"taskType": "auto",
+			"script": "revers_proxy.sh",
+			"route": [{
+				"toNode": "node4",
+				"condition": ""
+			}]
+
+		},
+		
+
+		{
+
+			"id": "node3",
+
+			"name": "通知申请人",
+			"taskType": "auto",
+
+			"script": "tongzhi.py",
+
+
+			"route": {}
+
+		},
+		
+		{
+
+			"id": "node4",
+
+			"name": "通知平台负责人、项目负责人、运维负责人、申请人",
+			"taskType": "auto",
+
+			"script": "tongzhi.py",
+
+
+			"route": {}
+
+		}
+
+	]
+
+}
