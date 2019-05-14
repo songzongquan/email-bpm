@@ -48,7 +48,7 @@ class ExcelReadWriter():
 
 if __name__=='__main__':
     ExcelReadWriter = ExcelReadWriter('C:/Users/Administrator/Desktop/form_邮箱注册_20190510.xlsx')
-    ExcelReadWriter.read('name')
-    ExcelReadWriter.write('jobNumber', '0111831')
+    ExcelReadWriter.read('姓名')
+    ExcelReadWriter.write('工号', '0111831')
 
 
