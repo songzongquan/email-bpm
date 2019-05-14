@@ -8,9 +8,9 @@ class ExcelReadWriter():
     def __init__(self,filename):
         '''根据模板名称来加载指定的模板excel以及其定义的json文件。'''
 
-        self.filename = filename
-
-        splitfilename = self.filename.split('_')[:-1]  #获得附件对应的模板名称前缀
+        self.filename = filename  #带路径的附件
+        attachmentFileName = self.filename.split('/')[-1]
+        splitfilename = attachmentFileName.split('_')[:-1]  #获得附件对应的模板名称前缀
         name = "_".join(splitfilename)
         parserFile = ExcelTempleteParser().parse(name + '.json')  #解析出的附件对应的模板信息
         self.parserFile = parserFile
@@ -25,12 +25,7 @@ class ExcelReadWriter():
         sheet = str(varCoordinate.get('sheet')) #获得变量所在表单的工作簿
         row = str(varCoordinate.get('row'))  #获得变量所在表单的某个工作簿中的某行
         col = varCoordinate.get('col')  #获得变量所在表单的某个工作簿中的某列
-        filepath = os.path.dirname(__file__)  #获得__file__所在的路径，是当前方法的绝对路径。
-        print(filepath)
-        filepath1 = os.path.dirname(filepath)
-        attachmentPath = os.path.join(filepath1+'/attachment/'+self.filename)  #获得附件的路径
-        print(attachmentPath)
-        workbook = openpyxl.load_workbook(attachmentPath) #打开附件
+        workbook = openpyxl.load_workbook(self.filename) #打开附件
         Data_sheet = workbook['Sheet'+sheet]  #获得需要读取的工作表
         cellValue = Data_sheet[col+row].value  #根据变量的位置获取到对应的值
         print(cellValue)
@@ -45,20 +40,15 @@ class ExcelReadWriter():
         sheet = str(varCoordinate.get('sheet'))  # 获得变量所在表单的工作簿
         row = str(varCoordinate.get('row'))  # 获得变量所在表单的某个工作簿中的某行
         col = varCoordinate.get('col')  # 获得变量所在表单的某个工作簿中的某列
-        filepath = os.path.dirname(__file__)  # 获得__file__所在的路径，是当前方法的绝对路径。
-        print(filepath)
-        filepath1 = os.path.dirname(filepath)
-        attachmentPath = os.path.join(filepath1 + '/attachment/' + self.filename)  # 获得附件的路径
-        print(attachmentPath)
-        attachmentFile = openpyxl.load_workbook(attachmentPath)  # 打开附件
+        attachmentFile = openpyxl.load_workbook(self.filename)  # 打开附件
         Data_sheet = attachmentFile['Sheet' + sheet]  # 获得需要读取并写入的工作表
         Data_sheet[col+row].value = value  #将值写入到指定变量的坐标位置
-        attachmentFile.save(filename=attachmentPath)  #保存修改过的附件
+        attachmentFile.save(filename=self.filename)  #保存修改过的附件
 
 
 if __name__=='__main__':
-    ExcelReadWriter = ExcelReadWriter('form_邮箱注册_20190510.xlsx')
-    ExcelReadWriter.read('emailAddress')
-    ExcelReadWriter.write('jobNumber', '0111832')
+    ExcelReadWriter = ExcelReadWriter('C:/Users/Administrator/Desktop/form_邮箱注册_20190510.xlsx')
+    ExcelReadWriter.read('name')
+    ExcelReadWriter.write('jobNumber', '0111831')
 
 
