@@ -11,7 +11,7 @@ class ExcelTempleteParser():
         # print(base)
         base1 = os.path.dirname(base)
         # print(base1)
-        path = os.path.join(base1+'/flowControler/data/'+templateName)  #获得路径加json文件名
+        path = os.path.join(base1+'/data/'+templateName)  #获得路径加json文件名
         # print(path)
         with open(path,encoding='utf-8') as form_info:
             templateDef = json.load(form_info)
