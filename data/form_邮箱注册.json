@@ -1,29 +1,29 @@
 {
-    "emailAddress":{
+    "邮箱地址":{
       "sheet" :1,
       "row" :2,
       "col" :"A"
     },
 
-    "name" :{
+    "姓名" :{
       "sheet" :1,
       "row" :2,
       "col" :"B"
      },
 
-    "jobNumber" : {
+    "工号" : {
       "sheet" :1,
       "row" :2,
       "col" :"C"
     },
 
-    "phoneNumber" : {
+    "联系电话" : {
       "sheet" :1,
       "row" :2,
       "col" :"D"
     },
 
-    "departmentName" : {
+    "所属部门" : {
       "sheet" :1,
       "row" :2,
       "col" :"E"
