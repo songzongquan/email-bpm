@@ -2,31 +2,37 @@
     "emailAddress":{
       "sheet" :1,
       "row" :2,
-      "col" :1
+      "col" :"A"
     },
 
     "name" :{
       "sheet" :1,
       "row" :2,
-      "col" :2
+      "col" :"B"
      },
 
     "jobNumber" : {
       "sheet" :1,
       "row" :2,
-      "col" :3
+      "col" :"C"
     },
 
     "phoneNumber" : {
       "sheet" :1,
       "row" :2,
-      "col" :4
+      "col" :"D"
     },
 
     "departmentName" : {
       "sheet" :1,
       "row" :2,
-      "col" :5
+      "col" :"E"
+    },
+
+    "注册审批" : {
+      "sheet" :1,
+      "row" :2,
+      "col" :"F"
     }
 
 
