@@ -10,8 +10,11 @@ class ExcelReadWriter():
 
         self.filename = filename  #带路径的附件
         attachmentFileName = self.filename.split('/')[-1]
-        splitfilename = attachmentFileName.split('_')[:-1]  #获得附件对应的模板名称前缀
-        name = "_".join(splitfilename)
+        attachmentFileName1 = attachmentFileName.split('.')[0]
+        print(attachmentFileName1)
+        splitfilename = attachmentFileName1.split('_')  #获得附件对应的模板名称前缀
+        name = "_".join(splitfilename[0:2])
+        print(name)
         parserFile = ExcelTempleteParser().parse(name + '.json')  #解析出的附件对应的模板信息
         self.parserFile = parserFile
         print(type(self.parserFile))
@@ -47,7 +50,7 @@ class ExcelReadWriter():
 
 
 if __name__=='__main__':
-    ExcelReadWriter = ExcelReadWriter('C:/Users/Administrator/Desktop/form_邮箱注册_20190510.xlsx')
+    ExcelReadWriter = ExcelReadWriter('C:/Users/user/Desktop/form_邮箱注册_20190510.xlsx')
     ExcelReadWriter.read('姓名')
     ExcelReadWriter.write('工号', '0111831')
 
