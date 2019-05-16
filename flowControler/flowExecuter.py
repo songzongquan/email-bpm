@@ -197,23 +197,66 @@ class FlowExecuter():
             
     def execute(self,step):
         """执行节点:根据流程定义与step,得到流程定义中当前节点的所有信息，然后根据是人工还是自动，如果是人工，则取得actor,给它发邮件，并且将当前附件作为新附件发出
-        如果是自动，则取得脚本，调用脚本。调用时将excel中取得的变量都传给脚本，最后把脚本执行后返回值，取到加入到流程变量
-        自动任务执行完后，要列新流程实例数据,自动任务状态直接更新为完成，人工任务设为开始执行或执行中，人工任务只有complete方法才能设为已完成。
-        """
+        如果是自动，则取得脚本，调用脚本。调用时将excel中取得的变量都传给脚本，最后把脚本执行后返回值，取到加入到流程变量"""
         instance = self.instance
         stepId = step['id']
         actor = step['actor']
         tasktype = step['type']
- 
         if tasktype =='man' or tasktype == 'remote':
-            pass
-        elif tasktype == 'auto':
-            pass
+            email=getEmail(actor)
+            info = getMainEmailInfo()
+            send_email=info["address"]
+            passwd=info["password"]
+            flow_name=self.filename.split("_")[1]
+            title = "请领导审批"+flow_name
+            text = title+\n+"请将审批结果填写至附件中，并发回"+send_email+\n+"本邮件为系统自动发出"
+            a=EmailClient(send_email,passwd,'mail.bonc.com.cn','993','mail.bonc.com.cn','25')
+            a.sendMail(send_email,passwd,email,title,text,self.filename,self.excel_path)
+            os.remove(self.excel_path+self.filename)
+        elif tasktype == 'auto'：
+            auto_script = step['script']    
+            current_system = platform.system()  #返回操作系统类型
+            if current_system=="Windows":
+                yuyan = "python "
+            elif current_system=="Linux":
+                yuyan = "python3 "
+            script_split = auto_script.split(" ")
+            script = script_split[0]
+            original = yuyan+self.script_path+script
+            vars = []
+            for i in script_split:
+                if i!=script:
+                    aa=excelReadWriter()
+                    var = aa.excelReadWriter(i)
+                    vars.append(var)
+            vars1=[str(i) for i in vars]
+            command1=" ".join(vars1)
+            command=command+" "+command1
+            if current_system == "Windows":
+                ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,timeout=30)
+            else:
+                ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,encoding=encode,timeout=30)            
+            if ret.returncode == 0:
+                self.flowVars[script]="执行成功"
+                back_read = bytes.decode(ret.stdout,encoding=encode)  #返回值是一个字典
+                for k,v in back_read.items():
+                    self.flowVars[k]=v
+            else:
+                self.flowVars[script]="执行失败"
         
+    def getEmail(self,actor):
+        a = flowDefineParser()
+        data = a.parse("emailInfo.json")
+        for i in data["info"]:
+            if i["姓名"]==actor:
+                email = i["邮箱"]
 
-  
-        
+    getFlowVarValue(self,varName):
+        cc=ExcelReadWriter()
+        return cc.read(varName)
 
+    setFlowVarValue(self,varName,value):
+        self.flowVars[varName]=value
 
 if __name__ == '__main__':
     
