@@ -18,63 +18,66 @@ from FlowDefineParser import FlowDefineParser
 class FlowExecuter():
 
 
-    """没有流水号的文件添加流水号"""
-    current_path = os.path.dirname(__file__)
-    excel_path = os.path.join(current_path+"/../data/excels/")
-    date_file = os.path.join(current_path+"/../data/date.txt")
-    order_file = os.path.join(current_path+"/../data/order.txt")
-    current_time = time.strftime("%Y%m%d",time.localtime())
-    current_path = os.path.dirname(__file__)
-    excel_path = os.path.join(current_path+"/data/excels/")
-    instance_path = os.path.join(current_path+"/data/instance/")
     
     def __init__(self,filename):
         self.filename=filename
 
-    def getId(self):
-        f = open(self.date_file)
+    
+    def __getDataPath(self):
+
+        current_path = os.path.dirname(__file__)
+        data_path = os.path.join(current_path+"/../data/")
+        return data_path
+    
+    def __getId(self):
+        data_file = os.path.join(__getDataPath()+"date.txt")
+        order_file = os.path.join(__getDataPath()+"order.txt")
+        f = open(date_file)
         date = f.read()
         if date == self.current_time:
-            f1 = open(self.order_file)
+            f1 = open(order_file)
             order = str(int(f1.read())+1)
-            newId = self.current_time+"-"+order
+            current_time =  time.strftime("%Y%m%d",time.localtime())
+            newId = current_time+"-"+order
             f.close()
             f1.close()
-            f2 = open(self.order_file,"w")
+            f2 = open(order_file,"w")
             f2.write(order)
             f2.close()
         else:
             f.close()
-            f2 = open(self.date_file,"w")
-            f2.write(self.current_time)
+            f2 = open(date_file,"w")
+            f2.write(current_time)
             f2.close()
-            f1 = open(self.order_file,"w")
+            f1 = open(order_file,"w")
             f1.write("1")
             f1.close()
-            newId = self.current_time+"-"+"1"
+            newId = current_time+"-"+"1"
         return newId
     
     def excelRename(self,filename,sn):
         
         file_split2 = filename.split(".")
-        old_excel = os.path.join(self.excel_path+filename)
-        new_excel = os.path.join(self.excel_path+file_split2[0]+"_"+sn+"."+file_split2[1])
+        old_excel = os.path.join(__getDataPath()+filename)
+        new_excel = os.path.join(__getDataPath()+file_split2[0]+"_"+sn+"."+file_split2[1])
         os.rename(old_excel,new_excel)
         
 
     def createInstance(self):
         #生成序列号
-        sn = self.getId()
+        sn = __getId()
         #修改附件文件名
-        self.excelRename(self.filename,sn)
+        excelRename(self.filename,sn)
         
         #初始化流程实例json文件添加内容
         file_split = self.filename.split("_")
         flow_name = file_split[1].split(".")[0]
         flow_json = os.path.join("flow_"+flow_name+".json")
-        json_file = os.path.join(instance_path+json_name)
+        json_file = os.path.join(__getDataPath()+json_name)
 
         json_file1 = "flow_"+flow_name+"_"+sn+".json"
+        #设置流程实例文件名 
+        self.instanceFile = json_file1 
         
         #如果找到流程定义文件，加载它
         if os.path.exists(json_file):
@@ -104,16 +107,18 @@ class FlowExecuter():
         filename = self.filename
         file_split = filename.split('_')
         flow_name = file_split[1]
+        sn =  file_split[2]
         def_file = "flow_"+flow_name+".json"
         #加载流程定义
         flowDef = flowDefineParser()
         flow = flowDef.parse(def_file)
         self.flowdef = flow 
-        json_file = os.path.join(instance_path+filename)
+        json_file = os.path.join(__getDataPath()+filename)
         with open(json_file, encoding="utf-8") as f: 
             data = json.load(f)
         f.close()
         self.instance = data
+        self.instanceFile = "flow_"+flow_name+"_"+sn+".json"
         return data
     
     def getCurrentStep(self):
@@ -156,25 +161,45 @@ class FlowExecuter():
         file_split = filename.split("_")
         if len(file_split) == 2:  #没有流水号
             instance = self.createFlowInstance()
-            step = self.getCurrentStep(instance)
-            self.execute(step)
-            #得到下一个节点，并在实例文件中初始化这个节点的结构
 
         else:
             instance = self.loadFlowInstance()
-            step = self.getCurrentStep(instance)
-            self.execute(step)
-            #得到下个节点，并在实例文件中初始化
+        
+        #得到当前节点并执行
+        step = self.getCurrentStep(instance)
+        self.execute(step)
+        #得到下一个节点并执行，如果下一个节点是自动节点，需要继承找到下个节点并执行，如果不是自动节点，则执行后不再找下一个接点去执行
+        newNode = step
+        while(True):
+            if newNode['type'] == 'auto':
+                self.execute(newNode)
+                newNode = self.getNextStep(newNode)
+            else:
+                self.execute(newNode)
+                break
+
 
 
     def complete(self,stepId):
-        '''通知该节点已完成 '''
-        pass
+        '''通知该节点已完成,此方法只为人工或远程任务才会用，这个需要在这个节点第一次被执行发邮件时把节点id放在附件中，当人回复该邮件后，系统收到时解析这个节点号，来得知当前是哪一个节点被完成了，然后调用此方法'''
+        #找到对应节点，将其状态设为完成
+        nodes  = self.instance['nodes']
+        for node in nodes:
+            if node['id'] == setpId:
+                node['state']='complete'
+                break
+        #将实例的新状态保存入库
+        
+        f = open(self.instanceFile,'w',encoding='utf-8')
+        json.dump(self.instance,f)
+        f.close()
         
             
     def execute(self,step):
         """执行节点:根据流程定义与step,得到流程定义中当前节点的所有信息，然后根据是人工还是自动，如果是人工，则取得actor,给它发邮件，并且将当前附件作为新附件发出
-        如果是自动，则取得脚本，调用脚本。调用时将excel中取得的变量都传给脚本，最后把脚本执行后返回值，取到加入到流程变量"""
+        如果是自动，则取得脚本，调用脚本。调用时将excel中取得的变量都传给脚本，最后把脚本执行后返回值，取到加入到流程变量
+        自动任务执行完后，要列新流程实例数据,自动任务状态直接更新为完成，人工任务设为开始执行或执行中，人工任务只有complete方法才能设为已完成。
+        """
         instance = self.instance
         stepId = step['id']
         actor = step['actor']
