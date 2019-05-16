@@ -30,20 +30,20 @@ while(True):
     msg = ec.getOldestMessage()
     print(type(msg))
     if msg != None:
-        uid = msg['UIDs']
+        uid = msg['id']
     
         msgtitle = ec.getTitleOfMessage(uid)
         #获取附件并下载
-        path = "data"
+        
         attachments = ec.getAttachements(uid)
         filename = attachments[0]['attachementname']
-        current_path = os.path.dirname(os.path.dirname(__file__))
+        current_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
         path = os.path.join(current_path+"/data/")
 
         ec.downloadAttachement(uid,filename,path)
     
         #创建相应流程实例，执行流程实例
-        executer = FlowExecuter(path+filename)
+        executer = FlowExecuter(filename)
 
         executer.start()
 

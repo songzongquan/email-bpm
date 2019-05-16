@@ -21,7 +21,9 @@ class FlowExecuter():
     
     def __init__(self,filename):
         self.filename=filename
-
+        self.instance=None
+        self.instanceFile = None
+        self.flowdef = None
     
     def __getDataPath(self):
 
@@ -30,26 +32,27 @@ class FlowExecuter():
         return data_path
     
     def __getId(self):
-        data_file = os.path.join(__getDataPath()+"date.txt")
-        order_file = os.path.join(__getDataPath()+"order.txt")
-        f = open(date_file)
+        date_file = os.path.join(self.__getDataPath()+"date.txt")
+        order_file = os.path.join(self.__getDataPath()+"order.txt")
+        f = open(date_file,'w+')
         date = f.read()
-        if date == self.current_time:
+
+        current_time =  time.strftime("%Y%m%d",time.localtime())
+        if date == current_time:
             f1 = open(order_file)
             order = str(int(f1.read())+1)
-            current_time =  time.strftime("%Y%m%d",time.localtime())
             newId = current_time+"-"+order
             f.close()
             f1.close()
-            f2 = open(order_file,"w")
+            f2 = open(order_file,"w+")
             f2.write(order)
             f2.close()
         else:
             f.close()
-            f2 = open(date_file,"w")
+            f2 = open(date_file,"w+")
             f2.write(current_time)
             f2.close()
-            f1 = open(order_file,"w")
+            f1 = open(order_file,"w+")
             f1.write("1")
             f1.close()
             newId = current_time+"-"+"1"
@@ -58,35 +61,41 @@ class FlowExecuter():
     def excelRename(self,filename,sn):
         
         file_split2 = filename.split(".")
-        old_excel = os.path.join(__getDataPath()+filename)
-        new_excel = os.path.join(__getDataPath()+file_split2[0]+"_"+sn+"."+file_split2[1])
+        old_excel = os.path.join(self.__getDataPath()+filename)
+        new_excel = os.path.join(self.__getDataPath()+file_split2[0]+"_"+sn+"."+file_split2[1])
         os.rename(old_excel,new_excel)
         
 
     def createInstance(self):
+        
+        print("进入创建实例")
         #生成序列号
-        sn = __getId()
+        sn = self.__getId()
         #修改附件文件名
-        excelRename(self.filename,sn)
+        self.excelRename(self.filename,sn)
         
         #初始化流程实例json文件添加内容
         file_split = self.filename.split("_")
         flow_name = file_split[1].split(".")[0]
         flow_json = os.path.join("flow_"+flow_name+".json")
-        json_file = os.path.join(__getDataPath()+json_name)
+        print("流程定义文件为："+flow_json)
 
-        json_file1 = "flow_"+flow_name+"_"+sn+".json"
+        json_file1 = self.__getDataPath()+"flow_"+flow_name+"_"+sn+".json"
         #设置流程实例文件名 
         self.instanceFile = json_file1 
         
         #如果找到流程定义文件，加载它
-        if os.path.exists(json_file):
-            flowDef = flowDefineParser()
-            flow = flowDef.parse(json_file)
+
+        write_json ={}
+        
+
+        if os.path.exists(self.__getDataPath()+flow_json):
+            flowDef = FlowDefineParser()
+            flow = flowDef.parse(flow_json)
+            print("流程定义："+str(flow))
             self.flowdef = flow
             def_nodes = flow['nodes']
-            
-            write_json ={}
+            print(def_nodes)            
             nodes = []
             node = {}
             node["id"] = def_nodes[0]['id']
@@ -98,11 +107,14 @@ class FlowExecuter():
             with open(json_file1, 'w',encoding="utf-8") as f:
                 json.dump(write_json, f)
                 f.close()
-        self.instance = write_json
+            print(write_json)
+            self.instance = write_json
         return write_json
                 
     def loadInstance(self):
         """读取实例文件"""
+
+        print("进入了加载实例。")
         #文件名解析，得到流程定义文件名
         filename = self.filename
         file_split = filename.split('_')
@@ -113,7 +125,7 @@ class FlowExecuter():
         flowDef = flowDefineParser()
         flow = flowDef.parse(def_file)
         self.flowdef = flow 
-        json_file = os.path.join(__getDataPath()+filename)
+        json_file = os.path.join(self.__getDataPath()+filename)
         with open(json_file, encoding="utf-8") as f: 
             data = json.load(f)
         f.close()
@@ -123,6 +135,7 @@ class FlowExecuter():
     
     def getCurrentStep(self):
         """获取当前节点"""
+        print(self.instance)
         node = self.instance['nodes'][-1]
         nodeId =  node['id']
         nodes = self.flowdef['nodes']
@@ -160,18 +173,20 @@ class FlowExecuter():
 
         file_split = filename.split("_")
         if len(file_split) == 2:  #没有流水号
-            instance = self.createFlowInstance()
+            print("没有流水号")
+            instance = self.createInstance()
 
         else:
-            instance = self.loadFlowInstance()
+            print("有流水号")
+            instance = self.loadInstance()
         
         #得到当前节点并执行
-        step = self.getCurrentStep(instance)
+        step = self.getCurrentStep()
         self.execute(step)
         #得到下一个节点并执行，如果下一个节点是自动节点，需要继承找到下个节点并执行，如果不是自动节点，则执行后不再找下一个接点去执行
         newNode = step
         while(True):
-            if newNode['type'] == 'auto':
+            if newNode['taskType'] == 'auto':
                 self.execute(newNode)
                 newNode = self.getNextStep(newNode)
             else:
@@ -203,7 +218,7 @@ class FlowExecuter():
         instance = self.instance
         stepId = step['id']
         actor = step['actor']
-        tasktype = step['type']
+        tasktype = step['taskType']
  
         if tasktype =='man' or tasktype == 'remote':
             pass
