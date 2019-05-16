@@ -49,8 +49,8 @@ def getEmailInfo(path):
     password = config.get('email','password')
     imap =  config.get('email','imap')
     imap_port =  config.get('email','imap_port')
-    stmp = config.get('email','stmp')
-    stmp_port = config.get('email','stmp_port')
+    smtp = config.get('email','smtp')
+    smtp_port = config.get('email','smtp_port')
     interval = config.get('email','interval')
 
     info = {}
@@ -60,8 +60,8 @@ def getEmailInfo(path):
     info['password'] = password
     info['imap'] = imap
     info['imap_port'] = imap_port
-    info['stmp'] = stmp
-    info['stmp_port'] = stmp_port
+    info['smtp'] = smtp
+    info['smtp_port'] = smtp_port
     info['interval'] = interval
 
     return info
