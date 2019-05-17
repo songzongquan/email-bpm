@@ -244,7 +244,7 @@ class FlowExecuter():
                     vars.append(var)
             vars1=[str(i) for i in vars]
             command1=" ".join(vars1)
-            command=command+" "+command1
+            command=original+" "+command1
             if current_system == "Windows":
                 ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,timeout=30)
             else:
