@@ -220,9 +220,9 @@ class FlowExecuter():
             title = "请领导审批"+flow_name
             text = title+"\n请将审批结果填写至附件中，并发回"+send_email+"\n本邮件为系统自动发出"
             a=EmailClient(send_email,passwd,'mail.bonc.com.cn','993','mail.bonc.com.cn','25')
-            a.sendMail(send_email,passwd,email,title,text,self.filename,self.excel_path)
+            a.sendMail(send_email,passwd,email,title,text,self.filename,self.__getDataPath())
             os.remove(self.excel_path+self.filename)
-        elif tasktype == 'auto'：
+        elif tasktype == 'auto':
             auto_script = step['script']    
             current_system = platform.system()  #返回操作系统类型
             if current_system=="Windows":
