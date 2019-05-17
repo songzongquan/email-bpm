@@ -11,10 +11,10 @@ class FlowDefineParser:
         path1 = (os.path.abspath(os.path.dirname(os.path.dirname(__file__))))           #返回的是__file__所在的路径的上一级路径，是当前方法的绝对路径的上一级路径。
         # print(path1)
         path2 = os.path.join(path1+"/data/"+filename)       #返回路径加文件名
-        # print(path2)
+        print(path2)
         with open(path2,encoding="utf-8") as flow_info:
              flow = json.load(flow_info)
-             # print(flow)
+             print(flow)
              return flow
 
 
