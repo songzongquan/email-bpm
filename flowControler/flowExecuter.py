@@ -73,7 +73,7 @@ class FlowExecuter():
         file_split = self.filename.split("_")
         flow_name = file_split[1].split(".")[0]
         flow_json = os.path.join("flow_"+flow_name+".json")
-        print("流程定义文件为:"+flow_json)
+        print("流程定义文件为："+flow_json)
 
         json_file1 = self.__getDataPath()+"flow_"+flow_name+"_"+sn+".json"
         #设置流程实例文件名 
@@ -87,7 +87,7 @@ class FlowExecuter():
         if os.path.exists(self.__getDataPath()+flow_json):
             flowDef = FlowDefineParser()
             flow = flowDef.parse(flow_json)
-            print("流程定义:"+str(flow))
+            print("流程定义："+str(flow))
             self.flowdef = flow
             def_nodes = flow['nodes']
             print(def_nodes)            
@@ -223,7 +223,7 @@ class FlowExecuter():
             a=EmailClient(send_email,passwd,'mail.bonc.com.cn','993','mail.bonc.com.cn','25')
             a.sendMail(send_email,passwd,email,title,text,self.filename,self.excel_path)
             os.remove(self.excel_path+self.filename)
-        elif tasktype == 'auto':
+        elif tasktype == 'auto'：
             auto_script = step['script']    
             current_system = platform.system()  #返回操作系统类型
             if current_system=="Windows":
@@ -257,15 +257,15 @@ class FlowExecuter():
     def getEmail(self,actor):
         a = flowDefineParser()
         data = a.parse("emailInfo.json")
-        for i in data["info"]:
+        for i in data:
             if i["姓名"]==actor:
                 email = i["邮箱"]
 
-    def getFlowVarValue(self,varName):
+    getFlowVarValue(self,varName):
         cc=ExcelReadWriter()
         return cc.read(varName)
 
-    def setFlowVarValue(self,varName,value):
+    setFlowVarValue(self,varName,value):
         self.flowVars[varName]=value
 
 if __name__ == '__main__':
