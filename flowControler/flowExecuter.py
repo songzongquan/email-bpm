@@ -3,20 +3,17 @@
 
 from common.emailClient import EmailClient 
 from common.excelReadWriter import ExcelReadWriter
-
-# -*- coding:utf-8 -*-
-#!usr/bin/python
-
 import os
 import time
 import json
-from flowControler.flowDefineParser import FlowDefineParser
-
+from FlowDefineParser import FlowDefineParser
+from common.config  import *
+from EmailClient import EmailClient
+import platform
+import subprocess
 
 class FlowExecuter():
 
-
-    
     def __init__(self,filename):
         self.filename=filename
         self.instance=None
@@ -222,7 +219,7 @@ class FlowExecuter():
             passwd=info["password"]
             flow_name=self.filename.split("_")[1]
             title = "请领导审批"+flow_name
-            text = title+\n+"请将审批结果填写至附件中，并发回"+send_email+\n+"本邮件为系统自动发出"
+            text = title+"\n请将审批结果填写至附件中，并发回"+send_email+"\n本邮件为系统自动发出"
             a=EmailClient(send_email,passwd,'mail.bonc.com.cn','993','mail.bonc.com.cn','25')
             a.sendMail(send_email,passwd,email,title,text,self.filename,self.excel_path)
             os.remove(self.excel_path+self.filename)
