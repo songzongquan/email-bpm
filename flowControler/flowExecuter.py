@@ -261,11 +261,11 @@ class FlowExecuter():
             if i["姓名"]==actor:
                 email = i["邮箱"]
 
-    getFlowVarValue(self,varName):
+    def getFlowVarValue(self,varName):
         cc=ExcelReadWriter()
         return cc.read(varName)
 
-    setFlowVarValue(self,varName,value):
+    def setFlowVarValue(self,varName,value):
         self.flowVars[varName]=value
 
 if __name__ == '__main__':
