@@ -1,16 +1,15 @@
 #!/usr/bin/python3
 #encoding:utf-8
 
-from common.emailClient import EmailClient 
-from common.excelReadWriter import ExcelReadWriter
 import os
 import time
 import json
-from FlowDefineParser import FlowDefineParser
-from common.config  import *
-from EmailClient import EmailClient
 import platform
 import subprocess
+
+from flowControler.flowDefineParser import FlowDefineParser
+from common.config  import *
+from common.emailClient import EmailClient
 
 class FlowExecuter():
 
@@ -213,7 +212,7 @@ class FlowExecuter():
         actor = step['actor']
         tasktype = step['taskType']
         if tasktype =='man' or tasktype == 'remote':
-            email=getEmail(actor)
+            email=self.getEmail(actor)
             info = getMainEmailInfo()
             send_email=info["address"]
             passwd=info["password"]
@@ -255,7 +254,7 @@ class FlowExecuter():
                 self.flowVars[script]="执行失败"
         
     def getEmail(self,actor):
-        a = flowDefineParser()
+        a = FlowDefineParser()
         data = a.parse("emailInfo.json")
         for i in data["info"]:
             if i["姓名"]==actor:
