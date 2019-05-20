@@ -283,8 +283,8 @@ class FlowExecuter():
             vars = []
             for i in script_split:
                 if i!=script:
-                    aa=excelReadWriter()
-                    var = aa.excelReadWriter(i)
+                    aa=excelReadWriter(self.filename)
+                    var = aa.read(i)
                     vars.append(var)
             vars1=[str(i) for i in vars]
             command1=" ".join(vars1)
