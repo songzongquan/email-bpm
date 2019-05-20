@@ -118,7 +118,7 @@ class FlowExecuter():
             data = json.load(f)
         f.close()
         self.instance = data
-        self.instanceFile = "flow_"+flow_name+"_"+sn+".json"
+        self.instanceFile = self.__getDataPath()+"flow_"+flow_name+"_"+sn+".json"
         return data
     
     def getCurrentStep(self):
@@ -129,7 +129,6 @@ class FlowExecuter():
         if len(self.instance['nodes']) == 0:
             #如果当前还没有执行过节点，就从定义中查出一个节点
             currentNode = self.flowdef['nodes'][0]
-            self.appendNode(currentNode)
   
 
         else:     #否则就取实例中最后一个节点
@@ -193,11 +192,14 @@ class FlowExecuter():
         
         #得到当前节点并执行
         step = self.getCurrentStep()
-        #得到当前节点的执行状态
-        instance = self.loadInstance()
-        print("当前实例的数据："+str(instance))
-        
-        state = self.getStepState(step['id'])
+        print("当前应该执行的节点："+str(step))
+        #当前的实例状态数据的节点
+        nodes = self.instance['nodes'] 
+        if len(nodes)>0:
+            state = self.getStepState(step['id'])
+        else:
+            state = ''
+
         #如果状态为没执行过，则执行        
         if state == '': #如果没执行过，则执行
             self.execute(step)
@@ -293,7 +295,9 @@ class FlowExecuter():
                 ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,encoding=encode,timeout=30)            
             if ret.returncode == 0:
                 self.flowVars[script]="执行成功"
-                back_read = bytes.decode(ret.stdout,encoding=encode)  #返回值是一个字典
+                print("执行返回的结果是："+ret.stdout)
+
+                back_read = json.loads(ret.stdout) #返回值是一个字典
                 for k,v in back_read.items():
                     self.flowVars[k]=v
             else:
@@ -327,7 +331,7 @@ class FlowExecuter():
                 break
         #将实例的新状态保存入库
         print("流程实例文件名："+self.instanceFile)         
-        f = open(self.__getDataPath()+self.instanceFile,'w',encoding='utf-8')
+        f = open(self.instanceFile,'w',encoding='utf-8')
         print("更新过的实例状态："+str(self.instance))
         json.dump(self.instance,f)
         f.close()
