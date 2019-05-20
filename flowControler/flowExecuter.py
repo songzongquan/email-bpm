@@ -147,6 +147,7 @@ class FlowExecuter():
         
         flowdef = self.flowdef
         route = step['route']
+        next_step = None
         nextnode = None
         if route:
             print("判定路由")
@@ -159,7 +160,7 @@ class FlowExecuter():
                     print("条件表达式右值是："+right)
                     excelrw = ExcelReadWriter(self.__getDataPath()+"excel/"+self.filename)
                     vv = excelrw.read(left)
-                    print("表单变量值是："+vv)
+                    print("表单变量值是："+str(vv))
                     if vv == right:
                         next_step = r['toNode']
                         break
@@ -233,6 +234,7 @@ class FlowExecuter():
         stepId = step['id']
         actor = ''
         tasktype = step['taskType']
+        print("正在执行的节点类型 ："+tasktype)
         if tasktype =='man' or tasktype == 'remote':
             if tasktype =='man':
                 actor = step['actor']
@@ -261,6 +263,7 @@ class FlowExecuter():
             self.setStepState(step['id'],'start') #执行完后状态设为已开始
 
         elif tasktype == 'auto':
+            print("执行自动节点"+str(step))
             auto_script = step['script']  
             encode = 'utf-8'
             current_system = platform.system()  #返回操作系统类型
@@ -274,6 +277,7 @@ class FlowExecuter():
             script = script_split[0]
             script_path = os.path.join(os.path.dirname(os.path.dirname(__file__))+"/script/")
             original = yuyan+script_path+script
+            print("将执行的脚本："+original)
             vars = []
             for i in script_split:
                 if i!=script:
