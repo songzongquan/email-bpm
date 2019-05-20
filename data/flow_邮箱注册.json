@@ -8,16 +8,15 @@
 			"id": "node1",
 
 			"name": "注册审批",
-
-			"taskType": "man",
-			"actor": "songzongquan",
+			"actor": "宋宗权",
+			"taskType":"man",
 			"route": [{
 					"toNode": "node3",
-					"condition": "result == 不同意 "
+					"condition": "注册审批=不同意 "
 				},
 				{
 					"toNode": "node2",
-					"condition": "result == 同意"
+					"condition": "注册审批=同意"
 				}
 			]
 

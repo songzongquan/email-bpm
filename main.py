@@ -38,7 +38,7 @@ while(True):
         attachments = ec.getAttachements(uid)
         filename = attachments[0]['attachementname']
         current_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-        path = os.path.join(current_path+"/data/")
+        path = os.path.join(current_path+"/data/excel/")
 
         ec.downloadAttachement(uid,filename,path)
     
@@ -46,6 +46,9 @@ while(True):
         executer = FlowExecuter(filename)
 
         executer.start()
+
+        # 删除当前邮件
+        ec.removeMessage(uid)
 
 
 
