@@ -283,7 +283,7 @@ class FlowExecuter():
             vars = []
             for i in script_split:
                 if i!=script:
-                    aa=excelReadWriter(self.filename)
+                    aa=ExcelReadWriter(self.filename)
                     var = aa.read(i)
                     vars.append(var)
             vars1=[str(i) for i in vars]
@@ -358,7 +358,7 @@ class FlowExecuter():
         return email
 
     def getFlowVarValue(self,varName):
-        cc=ExcelReadWriter()
+        cc=ExcelReadWriter(filename)
         return cc.read(varName)
 
     def setFlowVarValue(self,varName,value):
