@@ -114,7 +114,7 @@
     },
 	
   "执行者" :{
-      "sheet" :1,
+      "sheet " :1,
       "row" :11,
       "col" :"B"
     },
@@ -129,6 +129,24 @@
       "sheet" :1,
       "row" :11,
       "col" :"F"
-    }
+    },
+
+  "step": {
+    "sheet" :2,
+    "row" :2,
+    "col" :"A"
+  },
+
+  "script": {
+    "sheet" :2,
+    "row" :2,
+    "col" :"B"
+  },
+
+  "result": {
+    "sheet" :2,
+    "row" :2,
+    "col" :"C"
+  }
 
 }
