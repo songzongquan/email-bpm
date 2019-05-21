@@ -1,7 +1,7 @@
 class MailVerify:
     def mailVerify(self,subject,fromaddr,attachmentname):
         if fromaddr.endswith('bonc.com.cn'):
-            if subject.startswith('[bpm]'):
+            if subject.endswith('[bpm]'):
 
                 if attachmentname.startswith('form_') and attachmentname.endswith('.xlsx'):
                     # print("True")
