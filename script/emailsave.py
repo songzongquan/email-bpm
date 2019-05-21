@@ -4,7 +4,9 @@ import os
 import json
 
 def emailsave(name,mail):
-    path=os.path.abspath(os.path.join(os.getcwd(), ".."))+'\\data\\emailInfo.json'
+    path1=os.path.abspath(os.path.join(os.getcwd(), ".."))
+    # print(path1)
+    path=os.path.join(path1,'data/emailInfo.json')
     # print(path)
     #打开json文件，读取里面的内容
     with open(path, encoding='utf-8') as form_info:
