@@ -16,10 +16,11 @@ class ShellExecuteAgent():
                 '''for循环，输出邮件中的所有附件'''
                 attachmentname = attachment['attachementname']# 从附件列表的字典中获取附件名称
                 # print(attachmentname)
-                downloadpath = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"/reversAttachments/")
+                downloadpath = os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"/Attachments/")
                 # 获取下载附件的路径，最后一定要加上"/"
                 emailclient.downloadAttachement(id,attachmentname,downloadpath)# 利用获取的附件名称，调用下载附件函数下载附件到指定路径,不包括附件名称
                 filename=os.path.join(downloadpath+attachmentname)# 精确到附件名称的路径
+                print(filename)
                 excelparse = ExcelReadWriter(filename)# 实例化表格解析函数
                 command = excelparse.read("script").split(" ")#从附件的sheet2中获取执行什么脚本，需要什么参数
                 script=['bash']
@@ -33,15 +34,15 @@ class ShellExecuteAgent():
                     executetime = time.strftime('%Y.%m.%d', time.localtime(time.time()))
                     # time.time()获得当前时间的时间戳，time.localtime()格式化时间戳为本地的时间，time.strftime()格式化日期
                     excelparse.write("执行时间", executetime)
-                    emailclient.sendMail("wangyujia@bonc.com.cn", "wyj211421.", "wangjingchun@bonc.com.cn", "主题","邮件内容", attachmentname, downloadpath)
+                    emailclient.sendMail("cloudiip_ops@bonc.com.cn","域名反向代理执行结果","域名反向代理工作已完成",attachmentname,downloadpath)
                     # mailclient.removeMessage(getmail)  # 删除邮件
-                else:
+                elif ".py" in script:
                     status = subprocess.Popen(script,stdout=subprocess.PIPE,cwd=os.getcwd() + "/script/").communicate()
                     excelparse.write("执行结果", status[0])
                     excelparse.write("执行者", "auto")
                     executetime = time.strftime('%Y.%m.%d', time.localtime(time.time()))
                     excelparse.write("执行时间", executetime)
-                    emailclient.sendMail("wangyujia@bonc.com.cn", "wyj211421.", "wangjingchun@bonc.com.cn", "主题","邮件内容", attachmentname, downloadpath)
+                    emailclient.sendMail("cloudiip_ops@bonc.com.cn","DNS解析执行结果","DNS解析工作已完成",attachmentname,downloadpath)
                     #mailclient.removeMessage(getmail)  # 删除邮件
 
                 time.sleep(300)
