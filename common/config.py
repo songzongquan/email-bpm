@@ -38,12 +38,12 @@ def getEmailInfo(path):
     config =  ConfigParser()
     try:
         
-        config.read(path)
+        config.read(path,encoding='utf-8')
     except IOError:
         print("error: file not found ")
 
     s = config.sections()
-    print(s)
+    #print(s)
     address =  config.get('email','address')
     account = config.get('email','account')
     password = config.get('email','password')
