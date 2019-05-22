@@ -1,13 +1,40 @@
-#!/usr/bin/python
-# -*- coding: UTF-8 -*-
+#!/usr/bin/python3
+#encoding:utf-8
 
 from common.emailClient import EmailClient
+from common.config import *
 
-def tongzhi(mailname,password,imaphost,imapport,smtphost,smtpport,toaddrs, subject, content):
 
-    a=EmailClient(mailname,password,imaphost,imapport,smtphost,smtpport)
-    a.sendMail(toaddrs, subject,content,'', '')
+
+
+def tongzhi(toaddrs, subject, content):
+    try:
+        info = getMainEmailInfo()
+        # print(info)
+
+        mailname = info['address']
+        imaphost = info['imap']
+        imapport = info['imap_port']
+        smtphost = info['smtp']
+        smtpport = info['smtp_port']
+        password = info['password']
+
+        a=EmailClient(mailname,password,imaphost,imapport,smtphost,smtpport)
+        a.sendMail(toaddrs, subject,content,'', '')
+        result = {}
+        result["status"] = 'success'
+        result["message"] = '执行成功'
+        print(result)
+    except Exception as e:
+        result1={}
+        result1["status"]='fail'
+        result1["message"]=repr(e)
+        print(result1)
 
 
 if __name__ == '__main__':
-    tongzhi('lixiaofan@bonc.com.cn', 'Lixiaofan123', 'mail.bonc.com.cn', '993', 'mail.bonc.com.cn', '465','lixiaofan@bonc.com.cn','邮箱注册已经完成','邮箱注册已经完成')
+    import sys
+    toaddrs = sys.argv[1]
+    subject = sys.argv[2]
+    content = sys.argv[3]
+    tongzhi(toaddrs, subject, content)
