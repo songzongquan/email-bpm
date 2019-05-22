@@ -1,10 +1,14 @@
 #!/usr/bin/python3
 #encoding:utf-8
+import os,sys
 
+p = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+print(p)
+sys.path.append(p)
+
+print(sys.path)
 from common.emailClient import EmailClient
 from common.config import *
-
-
 
 
 def tongzhi(toaddrs, subject, content):
