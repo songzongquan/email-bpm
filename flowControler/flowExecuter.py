@@ -6,6 +6,7 @@ import time
 import json
 import platform
 import subprocess
+import re
 
 from flowControler.flowDefineParser import FlowDefineParser
 from common.config  import *
@@ -153,17 +154,9 @@ class FlowExecuter():
             if len(route) > 1:
                 for r in route:
                     c = r['condition']
-                    cs = c.split("=")
-                    left = cs[0]
-                    right = cs[1]
-                    print("条件表达式右值是："+right)
-                    excelrw = ExcelReadWriter(self.__getDataPath()+"excel/"+self.filename)
-                    vv = excelrw.read(left)
-                    print("表单变量值是："+str(vv))
-                    if vv == right:
+                    if evalCondition(c)
                         next_step = r['toNode']
-                        break
-                
+                        break    
             else:
                 next_step = route[0]['toNode']
                 
@@ -254,7 +247,7 @@ class FlowExecuter():
             smtp_port = info["smtp_port"]
 
             flow_name=self.filename.split("_")[1]
-            title = "请领导审批"+flow_name
+            title = "请领导审批"+flow_name+"[bpm]"
             text = title+"\n请将审批结果填写至附件中，并发回"+send_email+"\n本邮件为系统自动发出"
             a = EmailClient(send_email,passwd,imap,imap_port,smtp,smtp_port)
             a.sendMail(email,title,text,self.filename,self.__getDataPath()+"excel/")
@@ -277,13 +270,14 @@ class FlowExecuter():
                 encode = 'utf-8'
             script_split = auto_script.split(" ")
             script = script_split[0]
-            script_path = os.path.join(os.path.dirname(os.path.dirname(__file__))+"/script/")
+            script_path = os.path.join(os.path.dirname(os.path.dirname(__file__))+"/../script/")
             original = yuyan+script_path+script
             print("将执行的脚本："+original)
             vars = []
+            excel_path = os.path.join(os.path.dirname(__file__)+"/excel/"+self.filename)
+            aa=ExcelReadWriter(excel_path)
             for i in script_split:
-                if i!=script:
-                    aa=ExcelReadWriter(self.filename)
+                if i!=script: 
                     var = aa.read(i)
                     vars.append(var)
             vars1=[str(i) for i in vars]
@@ -363,6 +357,30 @@ class FlowExecuter():
 
     def setFlowVarValue(self,varName,value):
         self.flowVars[varName]=value
+        
+    def add1(value):
+    return "【"+value+"】"
+    
+    def add2(value):
+        return '"'+value+'"'
+
+    def evalCondition(condition):
+        """表达式格式为：【判断值】 条件表达式 【比较值】"，例如：【a】>【b】"""
+        condition=condition.replace("=","==")
+        p = r"(?<=\【).+?(?=\】)"
+        #p1 = r"(?<=\《).+?(?=\》)"
+        vars = re.findall(p,condition)
+        RW = ExcelReadWriter(filename)
+        for i in vars:
+            value=RW.read(i)
+            if type(value)==int or type(value)==float:
+                new_i=add1（i）
+                condition = condition.replace(new_i,str(value))
+            elif type(value)==str:
+                new_i=add1（i）
+                new_value=add2（value）
+                condition = condition.replace(new_i,new_value)
+        return eval(condition)
 
 if __name__ == '__main__':
     
