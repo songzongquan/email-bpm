@@ -378,7 +378,7 @@ class FlowExecuter():
         p = r"(?<=\【).+?(?=\】)"
         #p1 = r"(?<=\《).+?(?=\》)"
         vars = re.findall(p,condition)
-        RW = ExcelReadWriter(filename)
+        RW = ExcelReadWriter(self.filename)
         for i in vars:
             value=RW.read(i)
             if type(value)==int or type(value)==float:
