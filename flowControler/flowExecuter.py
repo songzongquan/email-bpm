@@ -154,7 +154,7 @@ class FlowExecuter():
             if len(route) > 1:
                 for r in route:
                     c = r['condition']
-                    if evalCondition(c):
+                    if self.evalCondition(c):
                         next_step = r['toNode']
                         break    
             else:
@@ -382,11 +382,11 @@ class FlowExecuter():
         for i in vars:
             value=RW.read(i)
             if type(value)==int or type(value)==float:
-                new_i=add1(i)
+                new_i=self.add1(i)
                 condition = condition.replace(new_i,str(value))
             elif type(value)==str:
-                new_i=add1(i)
-                new_value=add2(value)
+                new_i=self.add1(i)
+                new_value=self.add2(value)
                 condition = condition.replace(new_i,new_value)
         return eval(condition)
 
