@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0c214177-ae9b-492b-b844-bfd226f0d696" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/flowControler/flowExecuter.py" beforeDir="false" afterPath="$PROJECT_DIR$/flowControler/flowExecuter.py" afterDir="false" />
-    </list>
+    <list default="true" id="0c214177-ae9b-492b-b844-bfd226f0d696" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,11 +23,8 @@
       <file leaf-file-name="test_2.py" pinned="false" current-in-tab="true">
         <entry file="file://$USER_HOME$/Desktop/test_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-              <folding>
-                <element signature="e#42#51#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="204">
+              <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -175,6 +170,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17423134" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -215,11 +211,8 @@
     </entry>
     <entry file="file://$USER_HOME$/Desktop/test_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
-          <folding>
-            <element signature="e#42#51#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
         </state>
       </provider>
     </entry>

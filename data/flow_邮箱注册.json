@@ -12,11 +12,11 @@
 			"taskType":"man",
 			"route": [{
 					"toNode": "node3",
-					"condition": "注册审批=不同意 "
+					"condition": "【注册审批】='不同意'"
 				},
 				{
 					"toNode": "node2",
-					"condition": "注册审批=同意"
+					"condition": "【注册审批】='同意'"
 				}
 			]
 

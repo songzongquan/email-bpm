@@ -12,11 +12,11 @@
 			"actor": "songzongquan",
 			"route": [{
 					"toNode": "node3",
-					"condition": "result == 不同意 "
+					"condition": "【result】 = '不同意' "
 				},
 				{
 					"toNode": "node2",
-					"condition": "result == 同意"
+					"condition": "【result】 = '同意'"
 				}
 			]
 
