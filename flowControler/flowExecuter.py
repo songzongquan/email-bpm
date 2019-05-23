@@ -276,10 +276,18 @@ class FlowExecuter():
             vars = []
             excel_path = os.path.join(os.path.dirname(__file__)+"/excel/"+self.filename)
             aa=ExcelReadWriter(excel_path)
-            for i in script_split:
-                if i!=script: 
-                    var = aa.read(i)
-                    vars.append(var)
+            if script!="tongzhi.py":                                               
+                for i in script_split:
+                    if i!=script: 
+                        var = aa.read(i)
+                        vars.append(var)
+            else:
+                to=aa.read(script_split[1])
+                vars.append(to)
+                title=script_split[2]
+                vars.append(title)
+                text=script_split[3]
+                vars.append(text)
             vars1=[str(i) for i in vars]
             command1=" ".join(vars1)
             command=original+" "+command1
@@ -288,15 +296,14 @@ class FlowExecuter():
             else:
                 ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,encoding=encode,timeout=30)            
             if ret.returncode == 0:
-                self.flowVars[script]="执行成功"
+                self.flowVars["脚本执行结果"]="执行成功"
                 print("执行返回的结果是："+ret.stdout)
 
                 back_read = json.loads(ret.stdout) #返回值是一个字典
                 for k,v in back_read.items():
                     self.flowVars[k]=v
             else:
-                self.flowVars[script]="执行失败"
-
+                self.flowVars["脚本执行结果"]="执行失败"
             #添加节点，并修改状态为完成 
             self.appendNode(step)
             self.setStepState(step['id'],'complete')
