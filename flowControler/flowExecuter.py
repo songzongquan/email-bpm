@@ -353,10 +353,11 @@ class FlowExecuter():
     def getEmail(self,actor):
         a = FlowDefineParser()
         data = a.parse("emailInfo.json")
+
         for i in data:
             if i["姓名"]==actor:
                 email = i["邮箱"]
-        return email
+                return email
 
     def getFlowVarValue(self,varName):
         cc=ExcelReadWriter(filename)
@@ -365,13 +366,13 @@ class FlowExecuter():
     def setFlowVarValue(self,varName,value):
         self.flowVars[varName]=value
         
-    def add1(value):
+    def add1(self,value):
         return "【"+value+"】"
     
-    def add2(value):
+    def add2(self,value):
         return '"'+value+'"'
 
-    def evalCondition(condition):
+    def evalCondition(self,condition):
         """表达式格式为：【判断值】 条件表达式 【比较值】"，例如：【a】>【b】"""
         condition=condition.replace("=","==")
         p = r"(?<=\【).+?(?=\】)"
@@ -391,7 +392,7 @@ class FlowExecuter():
 
 if __name__ == '__main__':
     
-    f = flowExecuter()
-    f.main()
+    f = FlowExecuter('form_邮箱注册.xlsx')
+    f.start()
 
 
