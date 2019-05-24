@@ -32,6 +32,7 @@
 
 			"name": "执行",
 			"taskType": "remote",
+			"actor": "商华蓝",
 			"script": "host_auth.py 【工号】 【堡垒机使用人】【使用人电话】 【使用人邮箱】【应用服务器地址】【应用连接方式】【应用服务器地址】【服务器root账号密码】【服务器用途】",
 			"route": [{
 				"toNode": "node4",
