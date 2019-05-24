@@ -290,6 +290,7 @@ class FlowExecuter():
             print("actor:"+actor)
             stepId = step['id']
             script = step['script']
+            print("替换之前的脚本是：",script)
             script=self.evalCondition(script)
             print('执行的脚本是：',script)
             filepath = os.path.join(self.__getDataPath()+"excel/"+self.filename)
