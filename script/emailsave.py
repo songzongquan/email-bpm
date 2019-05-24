@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
 import os
 import json
@@ -19,9 +19,11 @@ def emailsave(name,mail,gonghao):
             count=len(list)
             # print(count)
             for i in range(count-1, -1, -1):
-                if gonghao==list[i]['工号']:
-                    list.pop(i)
-                    # print(list)
+                if '工号'in list[i].keys():
+                    if gonghao==list[i]['工号']:
+                        # print(list[i]['工号'])
+                        list.pop(i)
+                        # print(list)
 
 
         dict = {}
@@ -56,3 +58,4 @@ if __name__ == '__main__':
     gonghao=sys.argv[3]
     emailsave(name,mail,gonghao)
     # emailsave("李晓范", 'lixiaofan@bonc.com.cn', '0112203')
+    # emailsave("宋宗权", 'songzongquan@bonc.com.cn', '010114')
