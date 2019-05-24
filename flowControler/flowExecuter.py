@@ -295,7 +295,7 @@ class FlowExecuter():
             filepath = os.path.join(self.__getDataPath()+"excel/"+self.filename)
             RW=ExcelReadWriter(filepath)
             RW.write("step",stepId)
-            RW.write("script",stepId)
+            RW.write("script",script)
             email=self.getEmail(actor)
             print("接收人邮箱："+email)
             info = getMainEmailInfo()
