@@ -45,10 +45,10 @@
 
 			"id": "node3",
 
-			"name": "通知申请人",
+			"name": "通知申请人申请未通过",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 【邮箱地址】 【标题】 【正文】",
+			"script": "tongzhi.py 【邮箱地址】 '堡垒机权限申请未通过，请联系相关人员' '堡垒机权限申请未通过，请联系相关人员'",
 
 
 			"route": {}
@@ -59,10 +59,10 @@
 
 			"id": "node4",
 
-			"name": "通知项目经理、事业部领导、运维负责人、申请人",
+			"name": "通知申请人申请已通过",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 【邮箱地址】 【标题】 【正文】",
+			"script": "tongzhi.py 【邮箱地址】 '堡垒机权限申请申请已通过' '堡垒机权限申请申请已通过'",
 
 
 			"route": {}
