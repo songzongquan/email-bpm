@@ -296,7 +296,7 @@ class FlowExecuter():
             RW=ExcelReadWriter(filepath)
             RW.write("step",stepId)
             RW.write("script",stepId)
-            email=self.gestEmail(actor)
+            email=self.getEmail(actor)
             print("接收人邮箱："+email)
             info = getMainEmailInfo()
             send_email=info["address"]
