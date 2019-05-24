@@ -7,7 +7,7 @@ import json
 def emailsave(name,mail,gonghao):
     try:
 
-        path1=os.path.abspath(os.path.join(os.getcwd(), ".."))
+        path1=os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         # print(path1)
         path=os.path.join(path1,'data/emailInfo.json')
         # print(path)
@@ -28,12 +28,14 @@ def emailsave(name,mail,gonghao):
         result = {}
         result["status"]='success'
         result["message"]='执行成功'
-        print(result)
+        r = json.dumps(result,ensure_ascii=False)
+        print(r)
     except Exception as e:
         result1={}
         result1["status"]='fail'
         result1["message"]=repr(e)
-        print(result1)
+        r = json.dumps(result1,ensure_ascii=False)
+        print(r)
 
 
 

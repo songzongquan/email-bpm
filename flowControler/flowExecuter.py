@@ -270,11 +270,11 @@ class FlowExecuter():
                 encode = 'utf-8'
             script_split = auto_script.split(" ")
             script = script_split[0]
-            script_path = os.path.join(os.path.dirname(os.path.dirname(__file__))+"/../script/")
+            script_path = os.path.join(os.path.dirname(os.path.dirname(__file__))+"/script/")
             original = yuyan+script_path+script
             print("将执行的脚本："+original)
             vars = []
-            excel_path = os.path.join(os.path.dirname(__file__)+"/excel/"+self.filename)
+            excel_path = os.path.join(self.__getDataPath()+"excel/"+self.filename)
             aa=ExcelReadWriter(excel_path)
             if script!="tongzhi.py":                                               
                 for i in script_split:
@@ -291,6 +291,8 @@ class FlowExecuter():
             vars1=[str(i) for i in vars]
             command1=" ".join(vars1)
             command=original+" "+command1
+
+            print("将执行的完整命令是："+command)
             if current_system == "Windows":
                 ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,timeout=30)
             else:
@@ -303,6 +305,7 @@ class FlowExecuter():
                 for k,v in back_read.items():
                     self.flowVars[k]=v
             else:
+                print("脚本执行失败")
                 self.flowVars["脚本执行结果"]="执行失败"
             #添加节点，并修改状态为完成 
             self.appendNode(step)
@@ -378,16 +381,23 @@ class FlowExecuter():
         p = r"(?<=\【).+?(?=\】)"
         #p1 = r"(?<=\《).+?(?=\》)"
         vars = re.findall(p,condition)
-        RW = ExcelReadWriter(self.filename)
+        print("解析出的变量："+str(vars))
+        filepath = self.__getDataPath()+"excel/"+self.filename
+        print("附件路径："+filepath)
+        RW = ExcelReadWriter(filepath)
         for i in vars:
             value=RW.read(i)
+            print("解析出的变量值："+str(value))
             if type(value)==int or type(value)==float:
+                print("解析的变量是数字")
                 new_i=self.add1(i)
                 condition = condition.replace(new_i,str(value))
             elif type(value)==str:
+                print("解析出的变量是字符串")
                 new_i=self.add1(i)
                 new_value=self.add2(value)
                 condition = condition.replace(new_i,new_value)
+            print('最后的条件表达式为：'+condition)
         return eval(condition)
 
 if __name__ == '__main__':

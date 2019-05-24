@@ -31,6 +31,7 @@ class ExcelReadWriter():
         workbook = openpyxl.load_workbook(self.filename) #打开附件
         Data_sheet = workbook['Sheet'+sheet]  #获得需要读取的工作表
         cellValue = Data_sheet[col+row].value  #根据变量的位置获取到对应的值
+        print("row:"+row+",col:"+col)
         print(cellValue)
         return cellValue
 

@@ -28,12 +28,14 @@ def tongzhi(toaddrs, subject, content):
         result = {}
         result["status"] = 'success'
         result["message"] = '执行成功'
-        print(result)
+        r = json.dumps(result,ensure_ascii=False)
+        print(r)
     except Exception as e:
         result1={}
         result1["status"]='fail'
         result1["message"]=repr(e)
-        print(result1)
+        r = json.dumps(result1,ensure_ascii=False)
+        print(r)
 
 
 if __name__ == '__main__':

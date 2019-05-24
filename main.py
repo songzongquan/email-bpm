@@ -5,6 +5,7 @@ from flowControler.flowExecuter import *
 
 
 import time
+
 #获取邮箱等配置信息
 info = getMainEmailInfo()
 #print(info)
@@ -20,7 +21,6 @@ interval = info['interval']
 #创建邮件客户端
 ec = EmailClient(mailname,password,imap,imapport,smtp,smtpport)
 #print(ec)
-
 #每5分钟处理一次
 while(True):
     
