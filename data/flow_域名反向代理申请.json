@@ -68,7 +68,7 @@
 			"name": "通知申请人",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 【邮箱地址】 【标题】 【正文】",
+			"script": "tongzhi.py 【邮箱地址】 '标题'  '正文'",
 
 
 			"route": {}
@@ -82,7 +82,7 @@
 			"name": "通知项目经理、事业部领导、运维负责人、申请人",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 【邮箱地址】 【标题】 【正文】",
+			"script": "tongzhi.py 【邮箱地址】 '标题' '正文'",
 
 
 			"route": {}
