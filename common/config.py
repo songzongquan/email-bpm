@@ -18,7 +18,7 @@ def getAbsPath(oldpath):
     #print(filepath)
 
     fatherpath = os.path.abspath(os.path.dirname(filepath))
-    print(fatherpath)
+    # print(fatherpath)
     configfilepath = os.path.join(fatherpath,oldpath)
     #print(configfilepath)
     return configfilepath
@@ -26,8 +26,8 @@ def getAbsPath(oldpath):
 
 def getAgentEmailInfo():
     '''得到执行代理的邮件配置信息'''
-    path = os.path.join('..','executeAgent','conf','email-bpm.ini')
-    print(path)
+    path = os.path.join('..','executeAgent','conf','agent.ini')
+    # print(path)
     configfilepath = getAbsPath(path)
     print("最后路径："+configfilepath)
     info = getEmailInfo(configfilepath)
