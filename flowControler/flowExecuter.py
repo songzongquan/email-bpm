@@ -154,7 +154,7 @@ class FlowExecuter():
             if len(route) > 1:
                 for r in route:
                     c = r['condition']
-                    if self.evalCondition(c):
+                    if eval(self.evalCondition(c)):
                         next_step = r['toNode']
                         break    
             else:
@@ -230,12 +230,9 @@ class FlowExecuter():
         actor = ''
         tasktype = step['taskType']
         print("正在执行的节点类型 ："+tasktype)
-        if tasktype =='man' or tasktype == 'remote':
-            if tasktype =='man':
-                actor = step['actor']
-
+        if tasktype =='man':
+            actor = step['actor']
             print("actor:"+actor)
-
             email=self.getEmail(actor)
             print("接收人邮箱："+email)
             info = getMainEmailInfo()
@@ -259,7 +256,7 @@ class FlowExecuter():
 
         elif tasktype == 'auto':
             print("执行自动节点"+str(step))
-            auto_script = step['script']  
+            script = step['script']  
             encode = 'utf-8'
             current_system = platform.system()  #返回操作系统类型
             if current_system=="Windows":
@@ -268,30 +265,8 @@ class FlowExecuter():
             elif current_system=="Linux":
                 yuyan = "python3 "
                 encode = 'utf-8'
-            script_split = auto_script.split(" ")
-            script = script_split[0]
-            script_path = os.path.join(os.path.dirname(os.path.dirname(__file__))+"/script/")
-            original = yuyan+script_path+script
-            print("将执行的脚本："+original)
-            vars = []
-            excel_path = os.path.join(self.__getDataPath()+"excel/"+self.filename)
-            aa=ExcelReadWriter(excel_path)
-            if script!="tongzhi.py":                                               
-                for i in script_split:
-                    if i!=script: 
-                        var = aa.read(i)
-                        vars.append(var)
-            else:
-                to=aa.read(script_split[1])
-                vars.append(to)
-                title=script_split[2]
-                vars.append(title)
-                text=script_split[3]
-                vars.append(text)
-            vars1=[str(i) for i in vars]
-            command1=" ".join(vars1)
-            command=original+" "+command1
-
+            script = self.evalCondition(script)
+            command = os.path.join(yuyan+self.__getDataPath()+"/../script/"+script)
             print("将执行的完整命令是："+command)
             if current_system == "Windows":
                 ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,timeout=30)
@@ -311,6 +286,39 @@ class FlowExecuter():
             #添加节点，并修改状态为完成 
             self.appendNode(step)
             self.setStepState(step['id'],'complete')
+        elif tasktype =='remote':
+            actor = step['actor']
+            print("actor:"+actor)
+            stepId = step['id']
+            script = step['script']
+            print("替换之前的脚本是：",script)
+            script=self.evalCondition(script)
+            print('执行的脚本是：',script)
+            filepath = os.path.join(self.__getDataPath()+"excel/"+self.filename)
+            RW=ExcelReadWriter(filepath)
+            RW.write("step",stepId)
+            RW.write("script",script)
+            email=self.getEmail(actor)
+            print("接收人邮箱："+email)
+            info = getMainEmailInfo()
+            send_email=info["address"]
+            passwd=info["password"]
+            imap = info["imap"]
+            imap_port = info["imap_port"]
+            smtp = info["smtp"]
+            smtp_port = info["smtp_port"]
+            flow_name=self.filename.split("_")[1]
+            title = "请执行"+flow_name+"远程代理，详细信息见附件"+"[bpm]"
+            print(title)
+            text = title+"\n本邮件为系统自动发出"
+            a = EmailClient(send_email,passwd,imap,imap_port,smtp,smtp_port)
+            a.sendMail(email,title,text,self.filename,self.__getDataPath()+"excel/")
+            
+            os.remove(self.__getDataPath()+"excel/"+self.filename)
+
+            self.appendNode(step)
+            self.setStepState(step['id'],'start')    
+        
 
 
     def appendNode(self,step):
@@ -364,7 +372,8 @@ class FlowExecuter():
                 return email
 
     def getFlowVarValue(self,varName):
-        cc=ExcelReadWriter(filename)
+        filepath = self.__getDataPath()+"excel/"+self.filename
+        cc = ExcelReadWriter(filepath)
         return cc.read(varName)
 
     def setFlowVarValue(self,varName,value):
@@ -399,7 +408,7 @@ class FlowExecuter():
                 new_value=self.add2(value)
                 condition = condition.replace(new_i,new_value)
             print('最后的条件表达式为：'+condition)
-        return eval(condition)
+        return condition
 
 if __name__ == '__main__':
     

@@ -1,0 +1,75 @@
+
+{
+	"nodes": [
+
+		{
+
+			"id": "node1",
+
+			"name": "负责人审批",
+
+			"taskType": "man",
+			"actor": "宋宗权",
+			"route": [{
+					"toNode": "node3",
+					"condition": "【审批结果】 = '不同意' "
+				},
+				{
+					"toNode": "node2",
+					"condition": "【审批结果】 = '同意'"
+				}
+			]
+
+		},
+
+
+
+
+
+		{
+
+			"id": "node2",
+
+			"name": "执行",
+			"taskType": "remote",
+			"actor": "商华蓝",
+			"script": "host_auth.py 【工号】 【堡垒机使用人】【使用人电话】 【使用人邮箱】【应用服务器地址】【应用连接方式】【应用服务器地址】【服务器root账号密码】【服务器用途】",
+			"route": [{
+				"toNode": "node4",
+				"condition": ""
+			}]
+
+		},
+		
+
+		{
+
+			"id": "node3",
+
+			"name": "通知申请人申请未通过",
+			"taskType": "auto",
+
+			"script": "tongzhi.py 【堡垒机使用人】 '堡垒机权限申请未通过，请联系相关人员' '堡垒机权限申请未通过，请联系相关人员'",
+
+
+			"route": {}
+
+		},
+		
+		{
+
+			"id": "node4",
+
+			"name": "通知申请人申请已通过",
+			"taskType": "auto",
+
+			"script": "tongzhi.py 【堡垒机使用人】 '堡垒机权限申请申请已通过' '堡垒机权限申请申请已通过'",
+
+
+			"route": {}
+
+		}
+
+	]
+
+}

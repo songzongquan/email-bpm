@@ -47,7 +47,7 @@
       "col" :"F"
     },
 
-  "应用链接方式" : {
+  "应用连接方式" : {
     "sheet" :1,
       "row" :6,
       "col" :"D"
@@ -101,22 +101,34 @@
       "col" :"F"
     },
 
-  "执行者" :{
-      "sheet " :1,
-      "row" :10,
-      "col" :"B"
+  "step": {
+    "sheet" :2,
+    "row" :2,
+    "col" :"A"
+  },
+
+  "script": {
+    "sheet" :2,
+    "row" :2,
+    "col" :"B"
+  },
+
+  "executor" :{
+      "sheet" :2,
+      "row" :2,
+      "col" :"C"
     },
 
-  "执行结果" :{
-      "sheet" :1,
-      "row" :10,
+  "result" :{
+      "sheet" :2,
+      "row" :2,
       "col" :"D"
     },
 
-  "执行时间" :{
-      "sheet" :1,
-      "row" :10,
-      "col" :"F"
+  "executionTime" :{
+      "sheet" :2,
+      "row" :2,
+      "col" :"E"
     }
 
 

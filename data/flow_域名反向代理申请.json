@@ -6,17 +6,37 @@
 
 			"id": "node1",
 
-			"name": "审批",
+			"name": "项目经理审批",
 
 			"taskType": "man",
 			"actor": "宋宗权",
 			"route": [{
-					"toNode": "node3",
-					"condition": "【result】 = '不同意' "
+					"toNode": "node4",
+					"condition": "【项目经理审批意见】 = '不同意' "
 				},
 				{
 					"toNode": "node2",
-					"condition": "【result】 = '同意'"
+					"condition": "【项目经理审批意见】 = '同意'"
+				}
+			]
+
+		},
+
+		{
+
+			"id": "node2",
+
+			"name": "事业部领导审批",
+
+			"taskType": "man",
+			"actor": "宋宗权",
+			"route": [{
+					"toNode": "node4",
+					"condition": "【事业部领导审批意见】 = '不同意' "
+				},
+				{
+					"toNode": "node3",
+					"condition": "【事业部领导审批意见】 = '同意'"
 				}
 			]
 
@@ -24,15 +44,18 @@
 
 
 
+
+
 		{
 
-			"id": "node2",
+			"id": "node3",
 
 			"name": "执行",
-			"taskType": "auto",
-			"script": "revers_proxy.sh 预申请公网域名 内网IP",
+			"taskType": "remote",
+			"actor": "王雨佳",
+			"script": "revers_proxy.sh 【预申请公网域名】 【内网IP】",
 			"route": [{
-				"toNode": "node4",
+				"toNode": "node5",
 				"condition": ""
 			}]
 
@@ -41,12 +64,12 @@
 
 		{
 
-			"id": "node3",
+			"id": "node4",
 
-			"name": "通知申请人",
+			"name": "通知申请人申请未通过",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 邮箱地址 标题 正文",
+			"script": "tongzhi.py 【申请人】 '域名反向代理申请未通过，请联系相关负责人员'  '域名反向代理申请未通过，请联系相关负责人员'",
 
 
 			"route": {}
@@ -55,12 +78,12 @@
 		
 		{
 
-			"id": "node4",
+			"id": "node5",
 
-			"name": "通知平台负责人、项目负责人、运维负责人、申请人",
+			"name": "通知申请人申请已通过",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 邮箱地址 标题 正文",
+			"script": "tongzhi.py 【申请人】 '域名反向代理申请成功' '域名反向代理申请成功'",
 
 
 			"route": {}

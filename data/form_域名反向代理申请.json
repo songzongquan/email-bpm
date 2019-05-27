@@ -2,7 +2,7 @@
   "申请人" : {
     "sheet" :1,
       "row" :3,
-      "col" :"A"
+      "col" :"B"
     },
 
     "申请部门" :{
@@ -112,24 +112,6 @@
       "row" :10,
       "col" :"F"
     },
-	
-  "执行者" :{
-      "sheet " :1,
-      "row" :11,
-      "col" :"B"
-    },
-
-  "执行结果" :{
-      "sheet" :1,
-      "row" :11,
-      "col" :"D"
-    },
-
-  "执行时间" :{
-      "sheet" :1,
-      "row" :11,
-      "col" :"F"
-    },
 
   "step": {
     "sheet" :2,
@@ -143,10 +125,23 @@
     "col" :"B"
   },
 
-  "result": {
-    "sheet" :2,
-    "row" :2,
-    "col" :"C"
-  }
+  "executor" :{
+      "sheet" :2,
+      "row" :2,
+      "col" :"C"
+    },
+
+  "result" :{
+      "sheet" :2,
+      "row" :2,
+      "col" :"D"
+    },
+
+  "executionTime" :{
+      "sheet" :2,
+      "row" :2,
+      "col" :"E"
+    }
+
 
 }
