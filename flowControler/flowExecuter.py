@@ -274,9 +274,9 @@ class FlowExecuter():
                 ret = subprocess.run(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,encoding=encode,timeout=30)            
             if ret.returncode == 0:
                 self.flowVars["脚本执行结果"]="执行成功"
-                print("执行返回的结果是："+ret.stdout)
+                print("执行返回的结果是：",ret.stdout)
 
-                back_read = json.loads(ret.stdout) #返回值是一个字典
+                back_read = eval(ret.stdout.decode(encoding='utf-8')) #返回值是一个字典
                 for k,v in back_read.items():
                     self.flowVars[k]=v
             else:
