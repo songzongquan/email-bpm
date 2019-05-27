@@ -9,7 +9,7 @@
 			"name": "审批",
 
 			"taskType": "man",
-			"actor": "songzongquan",
+			"actor": "宋宗权",
 			"route": [{
 					"toNode": "node3",
 					"condition": "【result】 = '不同意' "
