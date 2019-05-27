@@ -44,7 +44,7 @@
 			"name": "通知申请人申请未成功",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 【邮箱地址】 '邮箱注册申请未成功' '邮箱注册申请未成功'",
+			"script": "tongzhi.py 【姓名】 '邮箱注册申请未成功' '邮箱注册申请未成功'",
 
 
 			"route": {}
@@ -58,7 +58,7 @@
 			"name": "通知申请人申请成功",
 			"taskType": "auto",
 
-			"script": "tongzhi.py 【邮箱地址】 '邮箱注册申请成功' '邮箱注册申请成功'",
+			"script": "tongzhi.py 【姓名】 '邮箱注册申请成功' '邮箱注册申请成功'",
 
 
 			"route": {}
