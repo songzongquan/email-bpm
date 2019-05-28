@@ -9,7 +9,7 @@ dns2="$1\t\tA\t10.128.14.3"
 cp /etc/nginx/server.d/xldc.cloudiip.com.conf /etc/nginx/server.d/$1.cloudiip.com.conf # 创建本次申请的域名配置文件，xldc.cloudiip.com.conf为模板
 sed -ri "s/xldc/$1/g" /etc/nginx/server.d/$1.cloudiip.com.conf # 将复制的配置文件中的xldc替换为本次申请的域名
 sed -ri "s?http://10.128.32.94?$2?g" /etc/nginx/server.d/$1.cloudiip.com.conf # 将配置文件中的proxy_pass部分替换为本次申请的内网ip
-(nginx -t;)>&/root/output.txt
+nginx -t
 if (($?==0));then
 
     nginx -s reload
@@ -28,11 +28,11 @@ if (($?==0));then
 
                         if (($?==0));then
 
-                            (rndc reload cloudiip.com;)>>/root/output.txt
+                            rndc reload cloudiip.com
 
                                 if (($?==0));then
 
-                                    (rndc thaw cloudiip.com;)>>/root/output.txt
+                                    rndc thaw cloudiip.com
 
                                         if (($?==0));then
 
@@ -78,11 +78,11 @@ if (($?==0));then
 
                         if (($?==0));then
 
-                            (rndc reload cloudiip.com;)>>/root/output.txt
+                            rndc reload cloudiip.com
 
                                 if (($?==0));then
 
-                                    (rndc thaw cloudiip.com;)>>/root/output.txt
+                                    rndc thaw cloudiip.com
 
                                         if (($?==0));then
 
