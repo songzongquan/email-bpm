@@ -261,10 +261,10 @@ class FlowExecuter():
             current_system = platform.system()  #返回操作系统类型
             if current_system=="Windows":
                 yuyan = "python "
-                encode='gbk'
+                code='gbk'
             elif current_system=="Linux":
                 yuyan = "python3 "
-                encode = 'utf-8'
+                code = 'utf-8'
             script = self.evalCondition(script)
             command = os.path.join(yuyan+self.__getDataPath()+"/../script/"+script)
             print("将执行的完整命令是："+command)
@@ -275,7 +275,7 @@ class FlowExecuter():
             if ret.returncode == 0:
                 self.flowVars["脚本执行结果"]="执行成功"
                 print("执行返回的结果是：",ret.stdout)
-                to_string=str(ret.stdout,encoding="gbk")
+                to_string=str(ret.stdout,encoding=code)
                 back_read = json.loads(to_string)
                 #back_read = eval(ret.stdout.decode(encoding='gbk')) #返回值是一个字典
                 print(back_read)
