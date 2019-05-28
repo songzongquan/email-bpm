@@ -50,7 +50,7 @@ def tongzhi(name, subject, content):
         result["status"] = 'success'
         result["message"] = '执行成功'
         r = json.dumps(result,ensure_ascii=False)
-        print(r)
+        print(r,end="")#去掉print的空行
     except Exception as e:
         result1={}
         result1["status"]='fail'

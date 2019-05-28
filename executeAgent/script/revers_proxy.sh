@@ -1,4 +1,5 @@
 #!/bin/bash
+#公网域名申请
 
 domain=$1
 ip=$2
@@ -9,7 +10,6 @@ cp /etc/nginx/server.d/xldc.cloudiip.com.conf /etc/nginx/server.d/$1.cloudiip.co
 sed -ri "s/xldc/$1/g" /etc/nginx/server.d/$1.cloudiip.com.conf # 将复制的配置文件中的xldc替换为本次申请的域名
 sed -ri "s?http://10.128.32.94?$2?g" /etc/nginx/server.d/$1.cloudiip.com.conf # 将配置文件中的proxy_pass部分替换为本次申请的内网ip
 nginx -t
-
 if (($?==0));then
 
     nginx -s reload
@@ -36,7 +36,7 @@ if (($?==0));then
 
                                         if (($?==0));then
 
-                                            if ping -c 1 -w 5 ${domain}.cloudiip.com&>/etc/nginx/server.d/ping.txt;then
+                                            if ping -c 1 -w 5 ${domain}.cloudiip.com&>>/root/output.txt;then
 
                                                 echo "反向代理工作已完成！"
 
@@ -86,7 +86,7 @@ if (($?==0));then
 
                                         if (($?==0));then
 
-                                            if ping -c 1 -w 5 ${domain}.cloudiip.com&>/etc/nginx/server.d/ping.txt;then
+                                            if ping -c 1 -w 5 ${domain}.cloudiip.com&>>/root/output.txt;then
 
                                                 echo "反向代理工作已完成！"
 
