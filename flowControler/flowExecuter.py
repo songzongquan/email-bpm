@@ -275,7 +275,8 @@ class FlowExecuter():
             if ret.returncode == 0:
                 self.flowVars["脚本执行结果"]="执行成功"
                 print("执行返回的结果是：",ret.stdout)
-                to_string=str(ret.stdout,encoding=code)
+                to_string=ret.stdout.decode(encoding=code)
+                #to_string=str(ret.stdout,encoding=code)
                 back_read = json.loads(to_string)
                 #back_read = eval(ret.stdout.decode(encoding='gbk')) #返回值是一个字典
                 print(back_read)
