@@ -49,20 +49,24 @@ class ShellExecuteAgent():
                     executetime = time.strftime('%Y.%m.%d', time.localtime(time.time()))
                     # time.time()获得当前时间的时间戳，time.localtime()格式化时间戳为本地的时间，time.strftime()格式化日期
                     excelparse.write("executionTime", executetime)
-                    emailclient.sendMail("cloudiip_ops@bonc.com.cn","域名反向代理执行结果","域名反向代理工作已完成",attachmentname,downloadpath)
+                    emailclient.sendMail("cloudiip_ops@bonc.com.cn","域名反向代理执行结果[bpm]","域名反向代理工作已完成",attachmentname,downloadpath)
                     # mailclient.removeMessage(getmail)  # 删除邮件
                 elif "host_auth.py" in command:
                     interpreter2 = ['python']
                     interpreter2.extend(command)
                     path = os.path.join(os.path.dirname(__file__),'script')
                     status = subprocess.Popen(interpreter2,stdout=subprocess.PIPE,cwd=path).communicate()
+                    print(status)
                     status1=str(status[0])
-                    status2=status1.split('\\n')
-                    excelparse.write("result", status2[1])
+                    status2=status1.split('\\r\\n')[0]
+                    print("status2:", status2)
+                    status3 = status2.split('"')[1]
+                    print("status3:",status3)
+                    excelparse.write("result", status3)
                     excelparse.write("executor", "auto")
                     executetime = time.strftime('%Y.%m.%d', time.localtime(time.time()))
                     excelparse.write("executionTime", executetime)
-                    emailclient.sendMail("cloudiip_ops@bonc.com.cn","DNS解析执行结果","DNS解析工作已完成",attachmentname,downloadpath)
+                    emailclient.sendMail("cloudiip_ops@bonc.com.cn","堡垒机申请执行结果[bpm]","堡垒机申请工作已完成",attachmentname,downloadpath)
                     #mailclient.removeMessage(getmail)  # 删除邮件
             print("5 minutes") 
             time.sleep(5)
