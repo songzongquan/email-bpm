@@ -275,12 +275,15 @@ class FlowExecuter():
             if ret.returncode == 0:
                 self.flowVars["脚本执行结果"]="执行成功"
                 print("执行返回的结果是：",ret.stdout)
-
-                back_read = eval(ret.stdout.decode(encoding='utf-8')) #返回值是一个字典
+                to_string=str(ret.stdout,encoding="gbk")
+                back_read = json.loads(to_string)
+                #back_read = eval(ret.stdout.decode(encoding='gbk')) #返回值是一个字典
+                print(back_read)
                 for k,v in back_read.items():
                     self.flowVars[k]=v
             else:
                 print("脚本执行失败")
+                print("执行返回的结果是："+ret.stdout)
                 self.flowVars["脚本执行结果"]="执行失败"
             #添加节点，并修改状态为完成 
             self.appendNode(step)
@@ -291,7 +294,7 @@ class FlowExecuter():
             stepId = step['id']
             script = step['script']
             print("替换之前的脚本是：",script)
-            script=self.evalCondition(script)
+            script=self.remoteCondition(script)           
             print('执行的脚本是：',script)
             filepath = os.path.join(self.__getDataPath()+"excel/"+self.filename)
             RW=ExcelReadWriter(filepath)
@@ -381,13 +384,39 @@ class FlowExecuter():
     def add1(self,value):
         return "【"+value+"】"
     
-    #def add2(self,value):
-     #   return '"'+value+'"'
+    def add2(self,value):
+        return '"'+value+'"'
 
     def evalCondition(self,condition):
         """表达式格式为：【判断值】 条件表达式 【比较值】"，例如：【a】>【b】"""
         condition=condition.replace("=","==")
         p = r"(?<=\【).+?(?=\】)"
+        #p1 = r"(?<=\《).+?(?=\》)"
+        vars = re.findall(p,condition)
+        print("解析出的变量："+str(vars))
+        filepath = self.__getDataPath()+"excel/"+self.filename
+        print("附件路径："+filepath)
+        RW = ExcelReadWriter(filepath)
+        for i in vars:
+            value=RW.read(i)
+            print("解析出的变量值："+str(value))
+            if type(value)==int or type(value)==float:
+                print("解析的变量是数字")
+                new_i=self.add1(i)
+                condition = condition.replace(new_i,str(value))
+            elif type(value)==str:
+                print("解析出的变量是字符串")
+                new_i=self.add1(i)
+                new_value=self.add2(value)
+                condition = condition.replace(new_i,new_value)
+            print('最后的条件表达式为：'+condition)
+        return condition
+        
+    def remoteCondition(self,condition):
+        """表达式格式为：【判断值】 条件表达式 【比较值】"，例如：【a】>【b】"""
+        condition=condition.replace("=","==")
+        p = r"(?<=\【).+?(?=\】)"
+        #p1 = r"(?<=\《).+?(?=\》)"
         vars = re.findall(p,condition)
         print("解析出的变量："+str(vars))
         filepath = self.__getDataPath()+"excel/"+self.filename

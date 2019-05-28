@@ -9,7 +9,7 @@
 			"name": "项目经理审批",
 
 			"taskType": "man",
-			"actor": "宋宗权",
+			"actor": "李晓范",
 			"route": [{
 					"toNode": "node4",
 					"condition": "【项目经理审批意见】 = '不同意' "
@@ -29,7 +29,7 @@
 			"name": "事业部领导审批",
 
 			"taskType": "man",
-			"actor": "宋宗权",
+			"actor": "李晓范",
 			"route": [{
 					"toNode": "node4",
 					"condition": "【事业部领导审批意见】 = '不同意' "

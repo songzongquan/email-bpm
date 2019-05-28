@@ -9,7 +9,7 @@
 			"name": "负责人审批",
 
 			"taskType": "man",
-			"actor": "宋宗权",
+			"actor": "李晓范",
 			"route": [{
 					"toNode": "node3",
 					"condition": "【审批结果】 = '不同意' "

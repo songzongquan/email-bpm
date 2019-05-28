@@ -8,7 +8,7 @@
 			"id": "node1",
 
 			"name": "注册审批",
-			"actor": "宋宗权",
+			"actor": "李晓范",
 			"taskType":"man",
 			"route": [{
 					"toNode": "node3",
