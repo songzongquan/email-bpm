@@ -4,10 +4,11 @@ import os,sys
 import json
 
 p = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-# print(p)
+#print(p)
 sys.path.append(p)
 
-# print(sys.path)
+#print(sys.path)
+
 from common.emailClient import EmailClient
 from common.config import *
 

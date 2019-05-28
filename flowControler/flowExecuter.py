@@ -281,6 +281,7 @@ class FlowExecuter():
                     self.flowVars[k]=v
             else:
                 print("脚本执行失败")
+                print("执行返回的结果是："+ret.stdout)
                 self.flowVars["脚本执行结果"]="执行失败"
             #添加节点，并修改状态为完成 
             self.appendNode(step)
