@@ -280,7 +280,7 @@ class FlowExecuter():
                     #to_string=str(ret.stdout,encoding=code)
                     back_read = json.loads(to_string)
                 elif current_system=="Linux":
-                    back_read = ret.stdout
+                    back_read = eval(ret.stdout)
                 print("返回的结果类型:",type(back_read))
                 for k,v in back_read.items():
                     self.flowVars[k]=v
