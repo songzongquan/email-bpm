@@ -24,6 +24,7 @@ class ShellExecuteAgent():
         emailclient = EmailClient(mailname,password,imap,imapport,smtp,smtpport)
         while True:#五分钟循环一次
             getmail = emailclient.getOldestMessage()# 收取邮件
+
             id = getmail.get('id')# 获取邮件id，为获取附件做准备
             attachmentlist=emailclient.getAttachements(id)# 以列表形式输出邮件中的所有附件
             for attachment in attachmentlist:
@@ -56,10 +57,10 @@ class ShellExecuteAgent():
                     interpreter2.extend(command)
                     path = os.path.join(os.path.dirname(__file__),'script')
                     status = subprocess.Popen(interpreter2,stdout=subprocess.PIPE,cwd=path).communicate()
-                    print(status)
+                    # print(status)
                     status1=str(status[0])
                     status2=status1.split('\\r\\n')[0]
-                    print("status2:", status2)
+                    # print("status2:", status2)
                     status3 = status2.split('"')[1]
                     print("status3:",status3)
                     excelparse.write("result", status3)
@@ -67,7 +68,16 @@ class ShellExecuteAgent():
                     executetime = time.strftime('%Y.%m.%d', time.localtime(time.time()))
                     excelparse.write("executionTime", executetime)
                     emailclient.sendMail("cloudiip_ops@bonc.com.cn","堡垒机申请执行结果[bpm]","堡垒机申请工作已完成",attachmentname,downloadpath)
-                    #mailclient.removeMessage(getmail)  # 删除邮件
+
+                emailclient.removeMessage(id)  # 删除邮件
+                # 删除下载的附件
+                path1 = os.path.join(os.path.dirname(__file__), "Attachments")
+                files = os.listdir(path1)
+                for i in files:
+                    os.remove(path1 + "/" + i)
+
+
+
             print("5 minutes") 
             time.sleep(5)
 
