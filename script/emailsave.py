@@ -57,5 +57,3 @@ if __name__ == '__main__':
     mail=sys.argv[2]
     gonghao=sys.argv[3]
     emailsave(name,mail,gonghao)
-    # emailsave("李晓范", 'lixiaofan@bonc.com.cn', '0112203')
-    # emailsave("宋宗权", 'songzongquan@bonc.com.cn', '010114')
